@@ -1,10 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
-public class SistemaInteraccion : MonoBehaviour
+public class ScriptInteraccion : MonoBehaviour
 {
-    [Header("Configuracion de Alcance")]
-    public float distanciaAlcance = 3f; // Que tan lejos estira la mano el jugador
-    public Transform zonaSostener;       // El punto vacio frente a la camara donde flotará el prop
+
+    public float distanciaAlcance = 3f;
+    public Transform zonaSostener;
+
+ 
+    public EnfoqueEstacion focusManager;
 
     private GameObject objetoSostenido;
     private Rigidbody rbObjeto;
@@ -13,24 +17,39 @@ public class SistemaInteraccion : MonoBehaviour
     void Start()
     {
         camaraJugador = Camera.main;
+
+        if (focusManager == null)
+            focusManager = FindObjectOfType<EnfoqueEstacion>();
     }
 
     void Update()
     {
-        // Si presionamos Click Izquierdo del Mouse
+ 
         if (Input.GetMouseButtonDown(0))
         {
-            if (objetoSostenido == null)
+            if (focusManager != null && focusManager.IsFocused)
             {
-                IntentarAgarrar();
+
+                if (objetoSostenido != null)
+                {
+                    HacerAnimacionCortar();
+                }
             }
             else
             {
-                SoltarObjeto();
+
+                if (objetoSostenido == null)
+                {
+                    IntentarAgarrar();
+                }
+                else
+                {
+                    SoltarObjeto();
+                }
             }
         }
 
-        // Si tenemos un objeto en la mano, lo movemos con nosotros
+  
         if (objetoSostenido != null)
         {
             MoverObjetoSostenido();
@@ -39,13 +58,11 @@ public class SistemaInteraccion : MonoBehaviour
 
     void IntentarAgarrar()
     {
-        // Disparamos un laser invisible desde el centro de la camara (donde esta el puntito blanco)
         Ray rayo = camaraJugador.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit golpe;
 
         if (Physics.Raycast(rayo, out golpe, distanciaAlcance))
         {
-            // Si el laser choca con algo que tenga la etiqueta "Interactuable"
             if (golpe.collider.CompareTag("Interactuable"))
             {
                 objetoSostenido = golpe.collider.gameObject;
@@ -53,19 +70,41 @@ public class SistemaInteraccion : MonoBehaviour
 
                 if (rbObjeto != null)
                 {
-                    rbObjeto.useGravity = false; // Quitamos gravedad para que no pese en la mano
-                    rbObjeto.isKinematic = true; // Desactivamos colisiones fisicas bruscas mientras lo tenemos
+                    rbObjeto.useGravity = false;
+                    rbObjeto.isKinematic = true;
                 }
 
-                // Emparentamos el objeto para que se mueva exactamente con la camara
                 objetoSostenido.transform.SetParent(zonaSostener);
+
+                if (objetoSostenido.GetComponent<ObjetoEstacion>() == null)
+                {
+                    objetoSostenido.AddComponent<ObjetoEstacion>();
+                }
+
+                EstacionesManager estacionCercana = null;
+                float menorDistancia = 5f;
+                EstacionesManager[] todas = FindObjectsOfType<EstacionesManager>();
+
+                foreach (EstacionesManager est in todas)
+                {
+                    float dist = Vector3.Distance(objetoSostenido.transform.position, est.transform.position);
+                    if (dist < menorDistancia)
+                    {
+                        menorDistancia = dist;
+                        estacionCercana = est;
+                    }
+                }
+
+                if (estacionCercana != null && focusManager != null)
+                {
+                    focusManager.FocusOnStation(estacionCercana);
+                }
             }
         }
     }
 
     void MoverObjetoSostenido()
     {
-        // El objeto viaja suavemente hacia la posicion de la "zonaSostener" usando su pivote de Blender
         objetoSostenido.transform.position = zonaSostener.position;
         objetoSostenido.transform.rotation = zonaSostener.rotation;
     }
@@ -74,11 +113,68 @@ public class SistemaInteraccion : MonoBehaviour
     {
         if (rbObjeto != null)
         {
-            rbObjeto.useGravity = true;  // Le devolvemos la gravedad
+            rbObjeto.useGravity = true;
             rbObjeto.isKinematic = false;
         }
 
-        objetoSostenido.transform.SetParent(null); // Lo despegamos de la camara
+        objetoSostenido.transform.SetParent(null);
         objetoSostenido = null;
+    }
+
+    void HacerAnimacionCortar()
+    {
+        Animator anim = objetoSostenido.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetTrigger("Cortar");
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(EfectoCorteProcedural());
+        }
+    }
+
+    private IEnumerator EfectoCorteProcedural()
+    {
+        Vector3 posOriginalLocal = zonaSostener.localPosition;
+        Vector3 posCorte = posOriginalLocal + new Vector3(0, -0.15f, 0.1f);
+
+        float tiempo = 0f;
+        while (tiempo < 0.08f)
+        {
+            zonaSostener.localPosition = Vector3.Lerp(posOriginalLocal, posCorte, tiempo / 0.08f);
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
+
+        tiempo = 0f;
+        while (tiempo < 0.08f)
+        {
+            zonaSostener.localPosition = Vector3.Lerp(posCorte, posOriginalLocal, tiempo / 0.08f);
+            tiempo += Time.deltaTime;
+            yield return null;
+        }
+
+        zonaSostener.localPosition = posOriginalLocal;
+    }
+
+
+    public void DevolverObjetoAEstacion()
+    {
+        if (objetoSostenido != null)
+        {
+            ObjetoEstacion infoObjeto = objetoSostenido.GetComponent<ObjetoEstacion>();
+            if (infoObjeto != null)
+            {
+                infoObjeto.ResetearPosicionOriginal();
+            }
+            else
+            {
+                SoltarObjeto();
+            }
+
+            objetoSostenido = null;
+        }
     }
 }
