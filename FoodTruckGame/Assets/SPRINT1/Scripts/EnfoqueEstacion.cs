@@ -1,26 +1,28 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnfoqueEstacion : MonoBehaviour
 {
-
     public Camera mainCamera;
 
+    
+    public List<Transform> puntosDeEnfoque = new List<Transform>();
+    private int indiceEstacionActual = 0;
+
     public MonoBehaviour starterAssetsInputsScript;
- 
     public MonoBehaviour firstPersonControllerScript;
-
- 
     public float transitionSpeed = 7f;
-
-
     public float sensibilidadMouse = 2f;
     public float maxGiroHorizontal = 25f;
-    public float maxGiroVertical = 15f; 
+    public float maxGiroVertical = 15f;
 
-    private EstacionesManager currentStation;
     private bool isFocused = false;
-    public bool IsFocused => isFocused;
+    public bool IsFocused
+    {
+        get { return isFocused; }
+        set { isFocused = value; }
+    }
 
     private Transform originalCameraParent;
     private Vector3 originalLocalPos;
@@ -28,7 +30,6 @@ public class EnfoqueEstacion : MonoBehaviour
 
     private Behaviour cinemachineBrain;
 
- 
     private float rotacionX = 0f;
     private float rotacionY = 0f;
     private Quaternion rotacionBaseEstacion;
@@ -52,12 +53,17 @@ public class EnfoqueEstacion : MonoBehaviour
     {
         if (!isFocused) return;
 
-
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Q))
         {
             ExitStation();
             return;
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            CambiarASiguientePunto();
+        }
+
 
         if (Input.GetMouseButton(1))
         {
@@ -67,7 +73,6 @@ public class EnfoqueEstacion : MonoBehaviour
             rotacionY += mouseX;
             rotacionX -= mouseY;
 
-
             rotacionY = Mathf.Clamp(rotacionY, -maxGiroHorizontal, maxGiroHorizontal);
             rotacionX = Mathf.Clamp(rotacionX, -maxGiroVertical, maxGiroVertical);
 
@@ -76,14 +81,28 @@ public class EnfoqueEstacion : MonoBehaviour
         }
     }
 
-    public void FocusOnStation(EstacionesManager station)
+    public void EnfocarPrimerPunto()
     {
-        if (isFocused || station == null || station.cameraFocusPoint == null) return;
+        if (puntosDeEnfoque.Count == 0) return;
 
-        currentStation = station;
+        indiceEstacionActual = 0;
+        MoverAlPuntoActual();
+    }
+
+    public void CambiarASiguientePunto()
+    {
+        if (puntosDeEnfoque.Count <= 1) return;
+
+        indiceEstacionActual = (indiceEstacionActual + 1) % puntosDeEnfoque.Count;
+        MoverAlPuntoActual();
+    }
+
+    private void MoverAlPuntoActual()
+    {
+        Transform puntoObjetivo = puntosDeEnfoque[indiceEstacionActual];
+        if (puntoObjetivo == null) return;
+
         isFocused = true;
-
-
         rotacionX = 0f;
         rotacionY = 0f;
 
@@ -99,19 +118,16 @@ public class EnfoqueEstacion : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        mainCamera.transform.SetParent(null);
-
-        rotacionBaseEstacion = station.cameraFocusPoint.rotation;
+        rotacionBaseEstacion = puntoObjetivo.rotation;
 
         StopAllCoroutines();
-        StartCoroutine(MoveCameraToTarget(station.cameraFocusPoint.position, station.cameraFocusPoint.rotation));
+        StartCoroutine(MoveCameraToTarget(puntoObjetivo.position, puntoObjetivo.rotation));
     }
 
     public void ExitStation()
     {
         if (!isFocused) return;
 
-  
         ScriptInteraccion interaccion = FindObjectOfType<ScriptInteraccion>();
         if (interaccion != null)
         {
@@ -119,19 +135,29 @@ public class EnfoqueEstacion : MonoBehaviour
         }
 
         isFocused = false;
-        currentStation = null;
 
         StopAllCoroutines();
         StartCoroutine(ReturnCameraToPlayer());
     }
 
+    public void Unfocus()
+    {
+        ExitStation();
+    }
+
     private IEnumerator MoveCameraToTarget(Vector3 targetPos, Quaternion targetRot)
     {
-        while (Vector3.Distance(mainCamera.transform.position, targetPos) > 0.01f ||
-               Quaternion.Angle(mainCamera.transform.rotation, targetRot) > 0.1f)
+        mainCamera.transform.SetParent(null, true);
+
+        float t = 0f;
+        Vector3 startPos = mainCamera.transform.position;
+        Quaternion startRot = mainCamera.transform.rotation;
+
+        while (t < 1f)
         {
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPos, Time.deltaTime * transitionSpeed);
-            mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, targetRot, Time.deltaTime * transitionSpeed);
+            t += Time.deltaTime * (transitionSpeed / 2f);
+            mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            mainCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
             yield return null;
         }
 
@@ -144,13 +170,18 @@ public class EnfoqueEstacion : MonoBehaviour
         Vector3 targetPos = originalCameraParent.TransformPoint(originalLocalPos);
         Quaternion targetRot = originalCameraParent.rotation * originalLocalRot;
 
-        while (Vector3.Distance(mainCamera.transform.position, targetPos) > 0.05f)
+        float t = 0f;
+        Vector3 startPos = mainCamera.transform.position;
+        Quaternion startRot = mainCamera.transform.rotation;
+
+        while (t < 1f)
         {
+            t += Time.deltaTime * transitionSpeed;
             targetPos = originalCameraParent.TransformPoint(originalLocalPos);
             targetRot = originalCameraParent.rotation * originalLocalRot;
 
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPos, Time.deltaTime * transitionSpeed);
-            mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, targetRot, Time.deltaTime * transitionSpeed);
+            mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            mainCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
             yield return null;
         }
 

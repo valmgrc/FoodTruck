@@ -2,29 +2,43 @@ using UnityEngine;
 
 public class ObjetoEstacion : MonoBehaviour
 {
-    public Vector3 posicionInicial;
-    public Quaternion rotacionInicial;
-    public Transform padreInicial;
+    [HideInInspector] public Vector3 posicionInicial;
+    [HideInInspector] public Quaternion rotacionInicial;
+    [HideInInspector] public Transform padreInicial;
+
+    private Rigidbody rb;
+    private bool posicionGuardada = false;
 
     void Awake()
     {
-   
-        posicionInicial = transform.position;
-        rotacionInicial = transform.rotation;
-        padreInicial = transform.parent;
+        rb = GetComponent<Rigidbody>();
+        GuardarPosicionInicial();
+    }
+
+    public void GuardarPosicionInicial()
+    {
+        if (!posicionGuardada)
+        {
+            posicionInicial = transform.position;
+            rotacionInicial = transform.rotation;
+            padreInicial = transform.parent;
+            posicionGuardada = true;
+        }
     }
 
     public void ResetearPosicionOriginal()
     {
         transform.SetParent(padreInicial);
-        transform.position = posicionInicial;
+        transform.position = posicionInicial + new Vector3(0f, 0.04f, 0f);
         transform.rotation = rotacionInicial;
 
-        Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.useGravity = true;
             rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.useGravity = false;
+            rb.isKinematic = true;
         }
     }
 }
