@@ -2357,7 +2357,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 337, y: -202}
+  m_AnchoredPosition: {x: 223, y: 192}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1762526700
@@ -2415,7 +2415,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2999,7 +2999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -307, y: 179}
+  m_AnchoredPosition: {x: -302, y: 202}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113768311
@@ -3022,17 +3022,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SOPA DE MIJO:
-
-
-    1. Cortar daikon y cebollin
-
-    2. Colocar en bowl
-    verduras picadas y mijo
-
-    3. Hervir los ingredientes
-
-    4.Servir la sopa'
+  m_text: "SOPA DE MIJO:\n1. Muevete con W, A, S, D\n2. Click derecho a la primer
+    estaci\xF3n con la tabal de cortar\n3. Click izquierdo selecciona el cuchillo\n4.
+    Coloca el cuchillo sobre la cebolla y presiona espacio\n5. Repite lo mismo sobre
+    el daikon\n6. Con click izquierdo coloca los vegetales en el bowl.\n7. Coloca
+    el mijo en el bowl\n8. Cambia de estaci\xF3n con E\n9. Coloca el bow sobre la
+    olla y con espacio tira los ingredientes hasta que el agua cambie de color.\n9.
+    Suelta el bowl en la mesa.\n10. Coje el cucharon, espacio sobre la olla \n11.
+    Con espacio sirve la sopa sobre el bowl\n12. TERMINASTE."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3059,13 +3056,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -3097,7 +3094,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -74.25998, w: 0}
+  m_margin: {x: 0, y: 0, z: -114.76279, w: -83.03607}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
