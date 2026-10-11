@@ -59,7 +59,7 @@ public class EnfoqueEstacion : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             CambiarASiguientePunto();
         }
