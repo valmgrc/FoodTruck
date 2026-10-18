@@ -7,6 +7,7 @@ public class ControladorOlla : MonoBehaviour
 
     public bool tieneDaikon = false;
     public bool tieneCebollin = false;
+    public bool tieneMijo = false;
 
 
     public float tiempoCoccion = 15f;
@@ -42,13 +43,19 @@ public class ControladorOlla : MonoBehaviour
             if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Daikon && !tieneDaikon)
             {
                 tieneDaikon = true;
-                Debug.Log("Daikon");
+                Debug.Log("Daikon adentro");
                 ingrediente.EntrarAOlla();
             }
             else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Cebollin && !tieneCebollin)
             {
                 tieneCebollin = true;
-                Debug.Log("Cebollín");
+                Debug.Log("Cebollín adentro");
+                ingrediente.EntrarAOlla();
+            }
+            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo && !tieneMijo)
+            {
+                tieneMijo = true;
+                Debug.Log("Mijo adentro");
                 ingrediente.EntrarAOlla();
             }
 
@@ -58,7 +65,7 @@ public class ControladorOlla : MonoBehaviour
 
     void VerificarInicioCoccion()
     {
-        if (tieneDaikon && tieneCebollin && !estaCocinando)
+        if (tieneDaikon && tieneCebollin && tieneMijo && !estaCocinando)
         {
             StartCoroutine(RutinaCoccion());
         }

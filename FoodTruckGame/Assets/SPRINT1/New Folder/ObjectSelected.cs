@@ -17,7 +17,10 @@ public class ObjectSelected : MonoBehaviour
 
     public UnityEvent onInteraction;
 
-    public bool puedoInteractuar = true; 
+    public bool puedoInteractuar = true;
+
+    public float distanciaMaxima = 6f;
+    private Transform jugadorTransform;
 
     private void Awake()
     {
@@ -28,6 +31,24 @@ public class ObjectSelected : MonoBehaviour
     {
         outline = GetComponent<Outline>();
         DisableOutline();
+
+        GameObject jugador = GameObject.FindGameObjectWithTag("Player");
+        if (jugador != null)
+        {
+            jugadorTransform = jugador.transform;
+        }
+        else
+        {
+           
+        }
+    }
+
+    bool EstaEnRango()
+    {
+        if (jugadorTransform == null) return true;
+
+        float distancia = Vector3.Distance(transform.position, jugadorTransform.position);
+        return distancia <= distanciaMaxima;
     }
 
     public void Interact()
@@ -48,7 +69,7 @@ public class ObjectSelected : MonoBehaviour
     //HOVER OUTLINE
     private void OnMouseEnter()
     {
-        if (!puedoInteractuar) return;
+        if (!puedoInteractuar || !EstaEnRango()) return;
         if (objectGrabPointTransform == null && outline != null)
         {
             EnableOutline();
@@ -74,6 +95,8 @@ public class ObjectSelected : MonoBehaviour
     //INTERACCION AGARRAR SOLTAR
     public void Grab(Transform objectGrabPointTransform)
     {
+        if (!EstaEnRango()) return;
+
         this.objectGrabPointTransform = objectGrabPointTransform;
         objectRigidbody.isKinematic = true;
         objectRigidbody.useGravity = false;
