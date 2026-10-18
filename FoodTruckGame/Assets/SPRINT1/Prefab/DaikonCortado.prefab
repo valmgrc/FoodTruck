@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7976388654798049661}
   - component: {fileID: 9176371499508460583}
   - component: {fileID: 4895486923012900881}
+  - component: {fileID: 7444536181591771133}
   m_Layer: 0
   m_Name: DaikonCortado
   m_TagString: Untagged
@@ -188,3 +189,16 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &7444536181591771133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183625248800866598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8dede1290ea8c42b41da5ea6fc65f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipo: 0

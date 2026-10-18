@@ -17,6 +17,8 @@ public class ObjectSelected : MonoBehaviour
 
     public UnityEvent onInteraction;
 
+    public bool puedoInteractuar = true; 
+
     private void Awake()
     {
         objectRigidbody = GetComponent<Rigidbody>();
@@ -30,6 +32,7 @@ public class ObjectSelected : MonoBehaviour
 
     public void Interact()
     {
+        if (!puedoInteractuar) return;
         onInteraction.Invoke();
     }
     public void DisableOutline()
@@ -45,6 +48,7 @@ public class ObjectSelected : MonoBehaviour
     //HOVER OUTLINE
     private void OnMouseEnter()
     {
+        if (!puedoInteractuar) return;
         if (objectGrabPointTransform == null && outline != null)
         {
             EnableOutline();
@@ -78,6 +82,8 @@ public class ObjectSelected : MonoBehaviour
 
     public void Drop()
     {
+        if (!puedoInteractuar) return;
+
         this.objectGrabPointTransform = null;
         objectRigidbody.isKinematic = false;
         objectRigidbody.useGravity = true;
