@@ -4,7 +4,6 @@ public class CuchilloAnimacion : MonoBehaviour
 {
     Animator anim;
 
-
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -12,11 +11,19 @@ public class CuchilloAnimacion : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        
+        if (Input.GetMouseButtonDown(0) && SistemaCorteObjeto.cuchilloEnMano)
         {
-            anim.SetTrigger("Corte");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 5f))
+            {
+                
+                if (hit.transform.TryGetComponent<SistemaCorteObjeto>(out SistemaCorteObjeto sistemaCorte))
+                {
+             
+                    anim.SetTrigger("Corte");
+                }
+            }
         }
     }
-
-   
 }
