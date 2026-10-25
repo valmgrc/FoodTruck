@@ -4,14 +4,18 @@ using TMPro;
 
 public class ControladorOlla : MonoBehaviour
 {
+    public int cantidadDaikon = 0;
+    public int cantidadCebollin = 0;
+    public int cantidadMijo = 0;
 
-    public bool tieneDaikon = false;
-    public bool tieneCebollin = false;
-    public bool tieneMijo = false;
-
+    public int porcionesDisponiblesEnOlla = 0;
+    public int porcionesCocinandose = 0;
+    public int maxPorcionesPermitidas = 2;
 
     public float tiempoCoccion = 15f;
-    private bool estaCocinando = false;
+    private float tiempoRestante = 0f;
+    public bool estaCocinando = false;
+    public bool estaEnParrilla = false; 
 
     public TextMeshProUGUI textoContador;
     public GameObject objetoAguaAzul;
@@ -21,12 +25,11 @@ public class ControladorOlla : MonoBehaviour
 
     void Start()
     {
-     
         miObjectSelected = GetComponent<ObjectSelected>();
 
         if (miObjectSelected != null)
         {
-            miObjectSelected.puedoInteractuar = false;
+            miObjectSelected.puedoInteractuar = true;
         }
 
         if (objetoAguaAzul != null) objetoAguaAzul.SetActive(true);
@@ -36,38 +39,76 @@ public class ControladorOlla : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Parrilla") || other.name.Contains("Parrilla") || other.name.Contains("Estufa"))
+        {
+            estaEnParrilla = true;
+            Debug.Log("Olla puesta en la parrilla");
+            return;
+        }
+
         IngredienteCocinable ingrediente = other.GetComponent<IngredienteCocinable>();
 
         if (ingrediente != null)
         {
-            if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Daikon && !tieneDaikon)
+            int porcionesTotalesOcupadas = porcionesDisponiblesEnOlla + porcionesCocinandose;
+
+            if (porcionesTotalesOcupadas >= maxPorcionesPermitidas)
             {
-                tieneDaikon = true;
-                Debug.Log("Daikon adentro");
+                Debug.Log("Olla llena");
+                return;
+            }
+
+            if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Daikon)
+            {
+                cantidadDaikon++;
                 ingrediente.EntrarAOlla();
             }
-            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Cebollin && !tieneCebollin)
+            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Cebollin)
             {
-                tieneCebollin = true;
-                Debug.Log("Cebollín adentro");
+                cantidadCebollin++;
                 ingrediente.EntrarAOlla();
             }
-            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo && !tieneMijo)
+            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo)
             {
-                tieneMijo = true;
-                Debug.Log("Mijo adentro");
+                cantidadMijo++;
                 ingrediente.EntrarAOlla();
             }
 
-            VerificarInicioCoccion();
+            RevisarYConvertirAPorciones();
         }
     }
 
-    void VerificarInicioCoccion()
+    void OnTriggerExit(Collider other)
     {
-        if (tieneDaikon && tieneCebollin && tieneMijo && !estaCocinando)
+        if (other.CompareTag("Parrilla") || other.name.Contains("Parrilla") || other.name.Contains("Estufa"))
         {
-            StartCoroutine(RutinaCoccion());
+            estaEnParrilla = false;
+            Debug.Log("Olla retirada de la parrilla");
+        }
+    }
+
+    void RevisarYConvertirAPorciones()
+    {
+        bool seFormoNuevaPorcion = false;
+
+        while (cantidadDaikon >= 1 && cantidadCebollin >= 1 && cantidadMijo >= 1 && (porcionesDisponiblesEnOlla + porcionesCocinandose) < maxPorcionesPermitidas)
+        {
+            cantidadDaikon -= 1;
+            cantidadCebollin -= 1;
+            cantidadMijo -= 1;
+
+            porcionesCocinandose++;
+            seFormoNuevaPorcion = true;
+        }
+
+        if (seFormoNuevaPorcion)
+        {
+            tiempoRestante = tiempoCoccion;
+
+            if (!estaCocinando)
+            {
+                StartCoroutine(RutinaCoccion());
+            }
         }
     }
 
@@ -75,43 +116,84 @@ public class ControladorOlla : MonoBehaviour
     {
         estaCocinando = true;
 
-        if (miObjectSelected != null)
+        if (objetoAguaAzul != null) objetoAguaAzul.SetActive(false);
+        if (objetoAguaNaranja != null && porcionesDisponiblesEnOlla <= 0)
         {
-            miObjectSelected.puedoInteractuar = false;
+            objetoAguaNaranja.SetActive(false);
         }
 
         if (textoContador != null) textoContador.gameObject.SetActive(true);
 
-        float tiempoRestante = tiempoCoccion;
-
         while (tiempoRestante > 0f)
         {
-            tiempoRestante -= Time.deltaTime;
-
-            if (textoContador != null)
+            if (estaEnParrilla)
             {
-                textoContador.text = Mathf.Ceil(tiempoRestante).ToString();
+                tiempoRestante -= Time.deltaTime;
+
+                if (textoContador != null)
+                {
+                    textoContador.text = Mathf.Ceil(tiempoRestante).ToString() + "s";
+                }
+            }
+            else
+            {
+                if (textoContador != null)
+                {
+                    textoContador.text = "Poner a hervir";
+                }
             }
 
             yield return null;
         }
 
+        estaCocinando = false;
+
+        porcionesDisponiblesEnOlla += porcionesCocinandose;
+        porcionesCocinandose = 0;
 
         if (textoContador != null)
         {
             textoContador.text = "Listo";
         }
 
-  
-        if (objetoAguaAzul != null) objetoAguaAzul.SetActive(false);
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(true);
 
+        Debug.Log("Porciones listas: " + porcionesDisponiblesEnOlla);
+    }
 
-        if (miObjectSelected != null)
+    void OnMouseDown()
+    {
+        if (objetoAguaNaranja != null && objetoAguaNaranja.activeSelf && !estaCocinando)
         {
-            miObjectSelected.puedoInteractuar = true;
-        }
+            CucharonSystem cucharon = FindObjectOfType<CucharonSystem>();
 
-        Debug.Log("Sopa");
+            if (cucharon != null)
+            {
+                cucharon.TomarSopaDeOlla(this);
+            }
+        }
+    }
+
+    public bool ExtraerPorcionDeOlla()
+    {
+        if (porcionesDisponiblesEnOlla > 0 && !estaCocinando)
+        {
+            porcionesDisponiblesEnOlla--;
+
+            if (porcionesDisponiblesEnOlla <= 0 && porcionesCocinandose <= 0)
+            {
+                ReiniciarOlla();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    void ReiniciarOlla()
+    {
+        estaCocinando = false;
+        if (objetoAguaAzul != null) objetoAguaAzul.SetActive(true);
+        if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(false);
+        if (textoContador != null) textoContador.gameObject.SetActive(false);
     }
 }

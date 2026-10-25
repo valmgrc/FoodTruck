@@ -16,7 +16,6 @@ public class Tooltip : MonoBehaviour
 
     private void Awake()
     {
-
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
         {
@@ -26,6 +25,8 @@ public class Tooltip : MonoBehaviour
 
     private void OnEnable()
     {
+        if (!Application.isPlaying) return;
+
         LeanTween.cancel(gameObject);
         canvasGroup.alpha = 0f;
 
@@ -52,7 +53,10 @@ public class Tooltip : MonoBehaviour
         int tituloLength = titulo.text.Length;
         int contenidoLength = contenido.text.Length;
 
-        layout.enabled = (tituloLength > characterWrapLimit || contenidoLength > characterWrapLimit) ? true : false;
+        if (layout != null)
+        {
+            layout.enabled = (tituloLength > characterWrapLimit || contenidoLength > characterWrapLimit) ? true : false;
+        }
     }
 
     private void Update()

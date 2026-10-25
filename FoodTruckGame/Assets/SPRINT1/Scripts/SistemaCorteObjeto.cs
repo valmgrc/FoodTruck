@@ -5,7 +5,7 @@ using TMPro;
 public class SistemaCorteObjeto : MonoBehaviour
 {
     public int clicsNecesarios = 3;
-    private int clicsActuales = 0;
+    public int clicsActuales = 0;
 
     public GameObject objetoEntero;
     public GameObject prefabPicado;
