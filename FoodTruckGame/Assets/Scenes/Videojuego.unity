@@ -195,7 +195,7 @@ Transform:
   m_GameObject: {fileID: 25994326}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.645, y: -0.23, z: 1.1132898}
+  m_LocalPosition: {x: -0.645, y: -0.23, z: 1.307}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,7 +233,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.36, y: 1.66, z: 0.89}
+  m_Size: {x: 1.76, y: 1.66, z: 0.89}
   m_Center: {x: 0.3, y: 0.13, z: 0}
 --- !u!1001 &27903055
 PrefabInstance:
@@ -2388,7 +2388,7 @@ Transform:
   m_GameObject: {fileID: 695680212}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.21, y: 0.885, z: 1.267}
+  m_LocalPosition: {x: -2.21, y: 0.885, z: 1.355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2426,7 +2426,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.32, y: 2.29, z: 0.89}
+  m_Size: {x: 2.32, y: 2.1, z: 0.65}
   m_Center: {x: 0.3, y: 0, z: 0}
 --- !u!4 &734477518 stripped
 Transform:
@@ -3948,7 +3948,7 @@ Transform:
   m_GameObject: {fileID: 1304265656}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.011, y: 0.918, z: 0.713}
+  m_LocalPosition: {x: 0.011, y: 0.918, z: 1.194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3986,7 +3986,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.13, y: 1.82, z: 0.89}
+  m_Size: {x: 2.13, y: 1.82, z: 0.64}
   m_Center: {x: 0.18, y: 0, z: 0}
 --- !u!1 &1314264809
 GameObject:
@@ -4015,7 +4015,7 @@ Transform:
   m_GameObject: {fileID: 1314264809}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.475, y: 0.04, z: 1.1132898}
+  m_LocalPosition: {x: -2.475, y: 0.04, z: 2.349}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4053,7 +4053,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.02, y: 1.94, z: 3.12}
+  m_Size: {x: 1.02, y: 1.94, z: 2}
   m_Center: {x: 0.3, y: 0, z: 0}
 --- !u!1 &1321026119
 GameObject:
