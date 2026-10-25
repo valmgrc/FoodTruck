@@ -33,7 +33,6 @@ public class CucharonSystem : MonoBehaviour
             {
                 visualSopaCucharon.SetActive(true);
             }
-            Debug.Log("sopa en cuchara");
         }
     }
 
@@ -46,7 +45,6 @@ public class CucharonSystem : MonoBehaviour
         {
             visualSopaCucharon.SetActive(false);
         }
-        Debug.Log("cucharon vaciado en vasija");
         return true;
     }
 }

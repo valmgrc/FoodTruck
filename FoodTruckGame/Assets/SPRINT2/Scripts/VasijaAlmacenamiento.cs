@@ -24,6 +24,11 @@ public class VasijaAlmacenamiento : MonoBehaviour
             {
                 cucharon.VaciarEnVasija();
 
+                if (TutorialManager.Instance != null)
+                {
+                    TutorialManager.Instance.NotificarSopaServida();
+                }
+
                 if (porcionesActuales >= porcionesMaximas)
                 {
                    

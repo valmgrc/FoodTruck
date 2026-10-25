@@ -42,7 +42,6 @@ public class ControladorOlla : MonoBehaviour
         if (other.CompareTag("Parrilla") || other.name.Contains("Parrilla") || other.name.Contains("Estufa"))
         {
             estaEnParrilla = true;
-            Debug.Log("Olla puesta en la parrilla");
             return;
         }
 
@@ -54,7 +53,6 @@ public class ControladorOlla : MonoBehaviour
 
             if (porcionesTotalesOcupadas >= maxPorcionesPermitidas)
             {
-                Debug.Log("Olla llena");
                 return;
             }
 
@@ -83,7 +81,6 @@ public class ControladorOlla : MonoBehaviour
         if (other.CompareTag("Parrilla") || other.name.Contains("Parrilla") || other.name.Contains("Estufa"))
         {
             estaEnParrilla = false;
-            Debug.Log("Olla retirada de la parrilla");
         }
     }
 
@@ -108,6 +105,21 @@ public class ControladorOlla : MonoBehaviour
             if (!estaCocinando)
             {
                 StartCoroutine(RutinaCoccion());
+            }
+            if (seFormoNuevaPorcion)
+            {
+                tiempoRestante = tiempoCoccion;
+
+
+                if (TutorialManager.Instance != null)
+                {
+                    TutorialManager.Instance.NotificarIngredientesEnOlla();
+                }
+
+                if (!estaCocinando)
+                {
+                    StartCoroutine(RutinaCoccion());
+                }
             }
         }
     }
@@ -158,7 +170,10 @@ public class ControladorOlla : MonoBehaviour
 
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(true);
 
-        Debug.Log("Porciones listas: " + porcionesDisponiblesEnOlla);
+        if (TutorialManager.Instance != null)
+        {
+           TutorialManager.Instance.NotificarSopaLista();
+        }
     }
 
     void OnMouseDown()

@@ -79,6 +79,10 @@ public class SistemaCorteObjeto : MonoBehaviour
             {
                 Destroy(objetoEntero);
             }
+            if (TutorialManager.Instance != null)
+            {
+                TutorialManager.Instance.NotificarIngredienteListoOSostenido();
+            }
 
         }
     }

@@ -108,10 +108,10 @@ public class ObjectSelected : MonoBehaviour
                 if (olla.cantidadCebollin > 0) infoOlla += $"• Cebollín             x{olla.cantidadCebollin}\n";
                 if (olla.cantidadMijo > 0) infoOlla += $"• Mijo                    x{olla.cantidadMijo}\n";
 
-                if (olla.porcionesCocinandose > 0) infoOlla += $"\nCocinando: {olla.porcionesCocinandose} porción(es)";
-                if (olla.porcionesDisponiblesEnOlla > 0) infoOlla += $"\nListas: {olla.porcionesDisponiblesEnOlla} porción(es)";
+                if (olla.porcionesCocinandose > 0) infoOlla += $"\nCocinando: {olla.porcionesCocinandose} porción";
+                if (olla.porcionesDisponiblesEnOlla > 0) infoOlla += $"\nListas: {olla.porcionesDisponiblesEnOlla} porción";
 
-                if (string.IsNullOrEmpty(infoOlla)) infoOlla = "Olla vacía (0 porciones)";
+                if (string.IsNullOrEmpty(infoOlla)) infoOlla = "Olla vacía (Ninguna porción)";
 
                 TooltipSystem.Show(infoOlla, Titulo);
             }
