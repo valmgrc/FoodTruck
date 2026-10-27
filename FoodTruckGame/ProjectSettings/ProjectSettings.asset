@@ -897,7 +897,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -919,11 +925,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: c5b2737b-fdf5-4ce1-a60d-41a0ca65dff2
+  cloudProjectId: 33ba0849-7d9e-45d1-8f69-9b986fb7b529
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: FoodTruckGame
-  organizationId: unity_d14c387dbd7d669562ee
+  organizationId: danaele42
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
