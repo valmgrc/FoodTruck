@@ -15,14 +15,9 @@ public class CucharonSystem : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
-    {
-        
-    }
-
     public void TomarSopaDeOlla(ControladorOlla ollaTarget)
     {
-        if (tieneSopa) return; 
+        if (tieneSopa) return;
 
         bool exito = ollaTarget.ExtraerPorcionDeOlla();
 
@@ -33,6 +28,17 @@ public class CucharonSystem : MonoBehaviour
             {
                 visualSopaCucharon.SetActive(true);
             }
+        }
+    }
+
+    public void TomarSopaDeVasija()
+    {
+        if (tieneSopa) return;
+
+        tieneSopa = true;
+        if (visualSopaCucharon != null)
+        {
+            visualSopaCucharon.SetActive(true);
         }
     }
 

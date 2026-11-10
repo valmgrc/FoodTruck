@@ -9,8 +9,8 @@ public class ObjectSelected : MonoBehaviour
 
     Outline outline;
 
-    public string mensajeAccion = "AGARRAR";      
-    public string teclaAccion = "E";        
+    public string mensajeAccion = "AGARRAR";
+    public string teclaAccion = "E";
 
     public UnityEvent onInteraction;
     public bool puedoInteractuar = true;
@@ -23,6 +23,8 @@ public class ObjectSelected : MonoBehaviour
     public string Contenido;
     public string Titulo;
     private LTDescr delay;
+
+    public static ObjectSelected objetoAgarradoActual = null;
 
     public static bool hayObjetoAgarrado = false;
     public float velocidadRotacion = 200f;
@@ -62,6 +64,21 @@ public class ObjectSelected : MonoBehaviour
                 }
             }
         }
+
+        if (ObjectSelected.hayObjetoAgarrado && Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 6f))
+            {
+                VasijaTelaController vasija = hit.collider.GetComponent<VasijaTelaController>();
+                if (vasija != null)
+                {
+                    vasija.ColocarTela();
+                }
+            }
+        }
+
     }
 
     bool EstaEnRango()
@@ -143,6 +160,20 @@ public class ObjectSelected : MonoBehaviour
                     {
                         ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "COLOCAR");
                         return;
+                    }
+
+                    if (gameObject.CompareTag("Vasija") || name.Contains("Vasija"))
+                    {
+                        VasijaTelaController vasijaTela = GetComponent<VasijaTelaController>();
+                        if (vasijaTela != null && !vasijaTela.estaTapada && ObjectSelected.objetoAgarradoActual != null)
+                        {
+                            GameObject objMano = ObjectSelected.objetoAgarradoActual.gameObject;
+                            if (objMano.CompareTag("Tela") || objMano.name.Contains("Tela")) //Colocar telita
+                            {
+                                ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "COLOCAR");
+                                return;
+                            }
+                        }
                     }
 
                     if (SistemaCorteObjeto.cuchilloEnMano)
@@ -231,25 +262,11 @@ public class ObjectSelected : MonoBehaviour
         DisableOutline();
 
         hayObjetoAgarrado = true;
+        objetoAgarradoActual = this;
 
         if (objetoBrillo != null)
         {
             Destroy(objetoBrillo);
-        }
-
-        bool esRotable = !gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon")
-                         && !name.Contains("Cuchillo") && !name.Contains("Cucharon");
-
-        if (ButtonPromptManager.Instance != null)
-        {
-            if (esRotable)
-            {
-                ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "Rueda", "ROTAR");
-            }
-            else
-            {
-                ButtonPromptManager.Instance.MostrarPrompt("E", "SOLTAR");
-            }
         }
     }
 
@@ -262,6 +279,7 @@ public class ObjectSelected : MonoBehaviour
         objectRigidbody.useGravity = true;
 
         hayObjetoAgarrado = false;
+        if (objetoAgarradoActual == this) objetoAgarradoActual = null;
 
         if (ButtonPromptManager.Instance != null)
         {

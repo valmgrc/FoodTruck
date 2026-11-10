@@ -7,6 +7,11 @@ public class PlayerPickDrop : MonoBehaviour
 
     [SerializeField] private Transform objectGrabKnifeTransform;
     [SerializeField] private Transform objectGrabCucharonTransform;
+    [SerializeField] private Transform objectGrabTelaTransform;
+
+
+    [SerializeField] private Transform objectGrabBowlLlenoTransform; 
+    [SerializeField] private Transform objectGrabCajaLlenaTransform; 
 
     [SerializeField] private LayerMask pickUpLayerMask;
 
@@ -35,7 +40,7 @@ public class PlayerPickDrop : MonoBehaviour
 
                             SistemaCorteObjeto.cuchilloEnMano = true;
                         }
-                        else if (raycastHit.transform.CompareTag("Cucharon")) 
+                        else if (raycastHit.transform.CompareTag("Cucharon"))
                         {
                             objectSelected.Grab(objectGrabCucharonTransform);
 
@@ -45,7 +50,40 @@ public class PlayerPickDrop : MonoBehaviour
                                 col.enabled = false;
                             }
 
-                            CucharonSystem.cucharonEnMano = true; 
+                            CucharonSystem.cucharonEnMano = true;
+                        }
+                        else if (raycastHit.transform.CompareTag("Tela") || raycastHit.transform.name.Contains("Tela"))
+                        {
+                            if (objectGrabTelaTransform != null)
+                            {
+                                objectSelected.Grab(objectGrabTelaTransform);
+                            }
+                            else
+                            {
+                                objectSelected.Grab(objectGrabPointTransform);
+                            }
+                        }
+                        else if (raycastHit.transform.TryGetComponent(out ControladorBowl bowl) && bowl.estaLleno)
+                        {
+                            if (objectGrabBowlLlenoTransform != null)
+                            {
+                                objectSelected.Grab(objectGrabBowlLlenoTransform);
+                            }
+                            else
+                            {
+                                objectSelected.Grab(objectGrabPointTransform);
+                            }
+                        }
+                        else if (raycastHit.transform.TryGetComponent(out ControladorCajaLlevar caja) && caja.estaLleno)
+                        {
+                            if (objectGrabCajaLlenaTransform != null)
+                            {
+                                objectSelected.Grab(objectGrabCajaLlenaTransform);
+                            }
+                            else
+                            {
+                                objectSelected.Grab(objectGrabPointTransform);
+                            }
                         }
                         else
                         {

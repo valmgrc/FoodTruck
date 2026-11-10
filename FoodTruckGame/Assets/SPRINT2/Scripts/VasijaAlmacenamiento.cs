@@ -7,6 +7,9 @@ public class VasijaAlmacenamiento : MonoBehaviour
 
     public GameObject[] nivelesDeLlenado;
 
+    [Header("Servicio en Fase de Pedidos")]
+    public int porcionesCucharadasRestantes = 20; // 20 cucharadas antes de vaciarse
+
     void Start()
     {
         ActualizarVisualesVasija();
@@ -16,28 +19,36 @@ public class VasijaAlmacenamiento : MonoBehaviour
     {
         CucharonSystem cucharon = FindObjectOfType<CucharonSystem>();
 
-        if (cucharon != null && cucharon.tieneSopa)
+        if (cucharon != null)
         {
-            bool exito = AgregarPorcion();
-
-            if (exito)
+            // FASE 1: Llenar la vasija desde la olla (cucharón cargado)
+            if (cucharon.tieneSopa)
             {
-                cucharon.VaciarEnVasija();
+                bool exito = AgregarPorcion();
 
-                if (TutorialManager.Instance != null)
+                if (exito)
                 {
-                    TutorialManager.Instance.NotificarSopaServida();
-                }
+                    cucharon.VaciarEnVasija();
 
-                if (porcionesActuales >= porcionesMaximas)
-                {
-                   
+                    if (TutorialManager.Instance != null)
+                    {
+                        TutorialManager.Instance.NotificarSopaServida();
+                    }
                 }
             }
-        }
-        else
-        {
+            // FASE 2: Servir de la vasija al Bowl (cucharón vacío)
+            else if (!cucharon.tieneSopa && porcionesActuales > 0 && porcionesCucharadasRestantes > 0)
+            {
+                cucharon.TomarSopaDeVasija();
+                porcionesCucharadasRestantes--;
 
+                // Si se agotan las 20 cucharadas, la vasija queda vacía
+                if (porcionesCucharadasRestantes <= 0)
+                {
+                    porcionesActuales = 0;
+                    ActualizarVisualesVasija();
+                }
+            }
         }
     }
 
@@ -45,10 +56,11 @@ public class VasijaAlmacenamiento : MonoBehaviour
     {
         if (porcionesActuales >= porcionesMaximas)
         {
-            return false; 
+            return false;
         }
 
         porcionesActuales++;
+        porcionesCucharadasRestantes = 20; // Se recarga a 20 porciones al llenarla
         ActualizarVisualesVasija();
         return true;
     }
