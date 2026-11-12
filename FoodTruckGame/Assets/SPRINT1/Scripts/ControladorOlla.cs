@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 public class ControladorOlla : MonoBehaviour
 {
@@ -12,16 +13,23 @@ public class ControladorOlla : MonoBehaviour
     public int porcionesCocinandose = 0;
     public int maxPorcionesPermitidas = 2;
 
-    public float tiempoCoccion = 15f;
-    private float tiempoRestante = 0f;
     public bool estaCocinando = false;
-    public bool estaEnParrilla = false; 
+    public bool estaEnParrilla = false;
 
-    public TextMeshProUGUI textoContador;
+
+    public GameObject panelMinijuegoContainer;
+    public Slider sliderProgresoMinijuego;
+    public GameObject iconoFlechaGuia;
+    public float girosNecesarios = 15f;
+    private float progresoActual = 0f;
+
+
     public GameObject objetoAguaAzul;
     public GameObject objetoAguaNaranja;
+    public Transform puntoCentroOlla;
 
     private ObjectSelected miObjectSelected;
+    private bool estaSiendoMirado = false; 
 
     void Start()
     {
@@ -34,7 +42,17 @@ public class ControladorOlla : MonoBehaviour
 
         if (objetoAguaAzul != null) objetoAguaAzul.SetActive(true);
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(false);
-        if (textoContador != null) textoContador.gameObject.SetActive(false);
+
+        if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(false);
+    }
+    private void OnMouseEnter()
+    {
+        estaSiendoMirado = true;
+    }
+
+    private void OnMouseExit()
+    {
+        estaSiendoMirado = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -67,7 +85,7 @@ public class ControladorOlla : MonoBehaviour
                 ingrediente.EntrarAOlla();
             }
             else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo)
-            {
+                {
                 cantidadMijo++;
                 ingrediente.EntrarAOlla();
             }
@@ -100,33 +118,22 @@ public class ControladorOlla : MonoBehaviour
 
         if (seFormoNuevaPorcion)
         {
-            tiempoRestante = tiempoCoccion;
+            if (TutorialManager.Instance != null)
+            {
+                TutorialManager.Instance.NotificarIngredientesEnOlla();
+            }
 
             if (!estaCocinando)
             {
-                StartCoroutine(RutinaCoccion());
-            }
-            if (seFormoNuevaPorcion)
-            {
-                tiempoRestante = tiempoCoccion;
-
-
-                if (TutorialManager.Instance != null)
-                {
-                    TutorialManager.Instance.NotificarIngredientesEnOlla();
-                }
-
-                if (!estaCocinando)
-                {
-                    StartCoroutine(RutinaCoccion());
-                }
+                StartCoroutine(RutinaMinijuegoRevolver());
             }
         }
     }
 
-    IEnumerator RutinaCoccion()
+    IEnumerator RutinaMinijuegoRevolver()
     {
         estaCocinando = true;
+        progresoActual = 0f;
 
         if (objetoAguaAzul != null) objetoAguaAzul.SetActive(false);
         if (objetoAguaNaranja != null && porcionesDisponiblesEnOlla <= 0)
@@ -134,24 +141,42 @@ public class ControladorOlla : MonoBehaviour
             objetoAguaNaranja.SetActive(false);
         }
 
-        if (textoContador != null) textoContador.gameObject.SetActive(true);
-
-        while (tiempoRestante > 0f)
+        if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(true);
+        if (sliderProgresoMinijuego != null)
         {
-            if (estaEnParrilla)
-            {
-                tiempoRestante -= Time.deltaTime;
+            sliderProgresoMinijuego.minValue = 0f;
+            sliderProgresoMinijuego.maxValue = girosNecesarios;
+            sliderProgresoMinijuego.value = 0f;
+        }
+        if (iconoFlechaGuia != null) iconoFlechaGuia.SetActive(true);
 
-                if (textoContador != null)
-                {
-                    textoContador.text = Mathf.Ceil(tiempoRestante).ToString() + "s";
-                }
-            }
-            else
+        bool primerGiroHecho = false;
+
+        while (progresoActual < girosNecesarios)
+        {
+
+            if (estaEnRangoOlla() && CucharonSystem.cucharonEnMano && estaSiendoMirado && Input.GetMouseButton(0))
             {
-                if (textoContador != null)
+                float deltaMouseX = Input.GetAxis("Mouse X");
+                float deltaMouseY = Input.GetAxis("Mouse Y");
+                float movimientoMagnitud = Mathf.Abs(deltaMouseX) + Mathf.Abs(deltaMouseY);
+
+                if (movimientoMagnitud > 0.1f)
                 {
-                    textoContador.text = "Poner a hervir";
+                    progresoActual += movimientoMagnitud * Time.deltaTime * 5f;
+                    if (sliderProgresoMinijuego != null) sliderProgresoMinijuego.value = progresoActual;
+
+                    if (!primerGiroHecho)
+                    {
+                        primerGiroHecho = true;
+                        if (iconoFlechaGuia != null) iconoFlechaGuia.SetActive(false);
+                    }
+
+                    CucharonSystem cucharon = FindObjectOfType<CucharonSystem>();
+                    if (cucharon != null && puntoCentroOlla != null)
+                    {
+                        cucharon.transform.RotateAround(puntoCentroOlla.position, Vector3.up, 300f * Time.deltaTime);
+                    }
                 }
             }
 
@@ -160,20 +185,22 @@ public class ControladorOlla : MonoBehaviour
 
         estaCocinando = false;
 
+        if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(false);
+
         porcionesDisponiblesEnOlla += porcionesCocinandose;
         porcionesCocinandose = 0;
-
-        if (textoContador != null)
-        {
-            textoContador.text = "Listo";
-        }
 
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(true);
 
         if (TutorialManager.Instance != null)
         {
-           TutorialManager.Instance.NotificarSopaLista();
+            TutorialManager.Instance.NotificarSopaLista();
         }
+    }
+
+    bool estaEnRangoOlla()
+    {
+        return estaEnParrilla;
     }
 
     void OnMouseDown()
@@ -209,6 +236,6 @@ public class ControladorOlla : MonoBehaviour
         estaCocinando = false;
         if (objetoAguaAzul != null) objetoAguaAzul.SetActive(true);
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(false);
-        if (textoContador != null) textoContador.gameObject.SetActive(false);
+        if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(false);
     }
 }
