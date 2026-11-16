@@ -48,9 +48,11 @@ public class ObjectSelected : MonoBehaviour
 
     void Update()
     {
+
+
         if (objectGrabPointTransform != null)
         {
-            if (!gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon"))
+            if (!gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon") && !gameObject.CompareTag("CucharaEspecias"))
             {
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
                 if (scroll != 0f)
@@ -75,6 +77,37 @@ public class ObjectSelected : MonoBehaviour
                 if (vasija != null)
                 {
                     vasija.ColocarTela();
+                }
+
+                Especia especia = hit.collider.GetComponent<Especia>();
+                if (especia != null && ObjectSelected.objetoAgarradoActual != null)
+                {
+                    especia.CargarEnCuchara();
+                }
+            }
+
+            PlatoLargoController platoLargo = hit.collider.GetComponent<PlatoLargoController>();
+            if (platoLargo != null && ObjectSelected.objetoAgarradoActual != null)
+            {
+                GameObject objMano = ObjectSelected.objetoAgarradoActual.gameObject;
+
+                if (!platoLargo.tienePescado && (objMano.CompareTag("PescadoCortado") || objMano.name.Contains("PescadoCortado")))
+                {
+                    platoLargo.ColocarPescado(ObjectSelected.objetoAgarradoActual);
+                }
+                else if (platoLargo.tienePescado && !platoLargo.tieneVino && !platoLargo.estaVertiendo &&
+                        (objMano.CompareTag("VinoArroz") || objMano.name.Contains("VinoArroz")))
+                {
+                    platoLargo.IniciarVertidoVino(ObjectSelected.objetoAgarradoActual);
+                }
+                else if (platoLargo.tienePescado && platoLargo.tieneVino && !platoLargo.tieneSal &&
+                        (objMano.CompareTag("CucharaEspecias") || objMano.name.Contains("Cuchara")))
+                {
+                    CucharitaEspecias cucharaSys = objMano.GetComponent<CucharitaEspecias>();
+                    if (cucharaSys != null && cucharaSys.tieneSalCargada)
+                    {
+                        platoLargo.AplicarSal(ObjectSelected.objetoAgarradoActual);
+                    }
                 }
             }
         }
@@ -176,6 +209,37 @@ public class ObjectSelected : MonoBehaviour
                         }
                     }
 
+                    if (gameObject.CompareTag("PlatoLargo") || name.Contains("PlatoLargo"))
+                    {
+                        PlatoLargoController platoLargo = GetComponent<PlatoLargoController>();
+                        if (platoLargo != null && ObjectSelected.objetoAgarradoActual != null)
+                        {
+                            GameObject objMano = ObjectSelected.objetoAgarradoActual.gameObject;
+
+                            if (!platoLargo.tienePescado && (objMano.CompareTag("PescadoCortado") || objMano.name.Contains("PescadoCortado")))
+                            {
+                                ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "COLOCAR");
+                                return;
+                            }
+                            else if (platoLargo.tienePescado && !platoLargo.tieneVino && !platoLargo.estaVertiendo &&
+                                    (objMano.CompareTag("VinoArroz") || objMano.name.Contains("VinoArroz")))
+                            {
+                                ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "VERTIR");
+                                return;
+                            }
+                            else if (platoLargo.tienePescado && platoLargo.tieneVino && !platoLargo.tieneSal &&
+                                    (objMano.CompareTag("CucharaEspecias") || objMano.name.Contains("Cuchara")))
+                            {
+                                CucharitaEspecias cucharaSys = objMano.GetComponent<CucharitaEspecias>();
+                                if (cucharaSys != null && cucharaSys.tieneSalCargada)
+                                {
+                                    ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "ECHAR SAL");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
                     if (SistemaCorteObjeto.cuchilloEnMano)
                     {
                         SistemaCorteObjeto sistemaCorte = GetComponent<SistemaCorteObjeto>();
@@ -224,8 +288,8 @@ public class ObjectSelected : MonoBehaviour
             {
                 if (ObjectSelected.hayObjetoAgarrado)
                 {
-                    bool esRotable = !gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon")
-                                     && !name.Contains("Cuchillo") && !name.Contains("Cucharon");
+                   bool esRotable = !gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon") && !gameObject.CompareTag("CucharaEspecias")
+                                     && !name.Contains("Cuchillo") && !name.Contains("Cucharon") && !name.Contains("Cucharita");
 
                     if (esRotable)
                     {
@@ -258,6 +322,7 @@ public class ObjectSelected : MonoBehaviour
         this.objectGrabPointTransform = objectGrabPointTransform;
         objectRigidbody.isKinematic = true;
         objectRigidbody.useGravity = false;
+        objectRigidbody.detectCollisions = false;
 
         DisableOutline();
 
@@ -277,6 +342,7 @@ public class ObjectSelected : MonoBehaviour
         this.objectGrabPointTransform = null;
         objectRigidbody.isKinematic = false;
         objectRigidbody.useGravity = true;
+        objectRigidbody.detectCollisions = true;
 
         hayObjetoAgarrado = false;
         if (objetoAgarradoActual == this) objetoAgarradoActual = null;
@@ -291,9 +357,16 @@ public class ObjectSelected : MonoBehaviour
     {
         if (objectGrabPointTransform != null)
         {
-            float lerpSpeed = 10f;
-            Vector3 newPosition = Vector3.Lerp(transform.position, objectGrabPointTransform.position, Time.deltaTime * lerpSpeed);
-            objectRigidbody.MovePosition(newPosition);
+            float lerpSpeed = 15f;
+
+            transform.position = Vector3.Lerp(transform.position, objectGrabPointTransform.position, Time.deltaTime * lerpSpeed);
+
+            if (gameObject.CompareTag("Cucharon") || name.Contains("Cucharon") ||
+                gameObject.CompareTag("CucharaEspecias") || name.Contains("Cucharita"))
+            {
+                Quaternion targetRotation = objectGrabPointTransform.rotation * Quaternion.Euler(0f, 0f, 0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * lerpSpeed);
+            }
         }
     }
 }

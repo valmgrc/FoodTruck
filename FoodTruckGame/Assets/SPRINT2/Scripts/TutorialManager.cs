@@ -32,6 +32,11 @@ public class TutorialManager : MonoBehaviour
     public Transform jugadorTransform;
     public Transform puntoInicioClientes;
 
+    [Header("Control de Ventanas del Puesto")]
+    public int totalVentanas = 2;
+    private int ventanasAbiertas = 0;
+    [HideInInspector] public bool esperandoAperturaVentanas = false;
+
     private bool misionMovimientoActiva = true;
     private bool misionRecetarioActiva = false;
     private bool misionCortarActiva = false;
@@ -110,6 +115,21 @@ public class TutorialManager : MonoBehaviour
                 }
             }
         }
+
+        // --- DETECCIÓN DE CLIC IZQUIERDO PARA ABRIR LAS VENTANAS ---
+        if (esperandoAperturaVentanas && Input.GetMouseButtonDown(0) && !recetarioAbierto)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 6f))
+            {
+                VentanaPedidos ventana = hit.collider.GetComponentInParent<VentanaPedidos>();
+                if (ventana != null && !ventana.estaAbierta)
+                {
+                    ventana.AbrirVentana();
+                }
+            }
+        }
     }
 
     void ActivarMisionRecetario()
@@ -166,12 +186,28 @@ public class TutorialManager : MonoBehaviour
 
     public void NotificarSopaServida()
     {
-        if (transicionIniciada) return; // Bloquea si ya se disparó la transición
-
+        // CAMBIO: Ya no inicia la transición aquí, solo completa el quest para que
+        // el jugador pueda seguir preparando más platillos mientras le quede tiempo.
         if (misionServirActiva)
         {
             misionServirActiva = false;
             OcultarQuest(1);
+        }
+    }
+
+    // CAMBIO: Nuevo método público que llamará tu script TiempoPreparacion al llegar a 00:00
+    public void IniciarTransicionPorTiempo()
+    {
+        if (transicionIniciada) return;
+
+        // Si el jugador tenía el recetario abierto justo cuando se acabó el tiempo, lo cerramos
+        if (recetarioAbierto)
+        {
+            recetarioAbierto = false;
+            if (panelRecetarioVisual != null) panelRecetarioVisual.SetActive(false);
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         transicionIniciada = true;
@@ -184,7 +220,8 @@ public class TutorialManager : MonoBehaviour
         OcultarQuest(1);
         OcultarQuest(2);
 
-        yield return new WaitForSeconds(8f);
+        // CAMBIO: Quitamos el "yield return new WaitForSeconds(8f);" para que el fade 
+        // empiece inmediatamente en cuanto el reloj marque 00:00.
 
         // Fade In a negro
         if (panelFadeNegro != null && canvasGroupFade != null)
@@ -223,7 +260,11 @@ public class TutorialManager : MonoBehaviour
             if (scriptCamara != null) scriptCamara.enabled = true;
         }
 
-        if (generadorClientes != null) generadorClientes.enabled = true;
+        // Activamos el texto "Prepárate para atender"
+        if (textoPreparate != null)
+        {
+            textoPreparate.gameObject.SetActive(true);
+        }
 
         yield return new WaitForSeconds(1f);
 
@@ -238,9 +279,43 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        // MOSTRAR TIPS DE LA FASE DE PEDIDOS
-        MostrarTipTemporal(1, "Tip de Servicio", "Sírvele a los clientes el platillo correcto. Asegúrate de entregarlo en bowl o caja para llevar.", 15f);
-        MostrarTipTemporal(2, "Tip de Ganancias", "Si no entregas el platillo correcto perderás monedas.", 15f);
+        if (textoPreparate != null)
+        {
+            textoPreparate.gameObject.SetActive(false);
+        }
+
+        // --- INICIAR MISIÓN DE ABRIR VENTANAS ---
+        ventanasAbiertas = 0;
+        esperandoAperturaVentanas = true;
+        MostrarQuest(1, "Apertura", "Abre las ventanas para comenzar a recibir pedidos (0/2)");
+    }
+
+    // Método llamado por cada VentanaPuesto cuando el jugador hace clic en ella
+    public void NotificarVentanaAbierta()
+    {
+        if (!esperandoAperturaVentanas) return;
+
+        ventanasAbiertas++;
+
+        if (ventanasAbiertas < totalVentanas)
+        {
+            MostrarQuest(1, "Apertura", $"Abre las ventanas para comenzar a recibir pedidos ({ventanasAbiertas}/{totalVentanas})");
+        }
+        else
+        {
+            esperandoAperturaVentanas = false;
+            OcultarQuest(1);
+
+            // ¡Ahora sí activamos el generador de clientes!
+            if (generadorClientes != null)
+            {
+                generadorClientes.enabled = true;
+            }
+
+            // MOSTRAR TIPS DE LA FASE DE PEDIDOS
+            MostrarTipTemporal(1, "Tip de Servicio", "Sírvele a los clientes el platillo correcto. Asegúrate de entregarlo en bowl o caja para llevar.", 15f);
+            MostrarTipTemporal(2, "Tip de Ganancias", "Si no entregas el platillo correcto perderás monedas.", 15f);
+        }
     }
 
     // Función auxiliar para mostrar Tips que se auto-ocultan tras X segundos

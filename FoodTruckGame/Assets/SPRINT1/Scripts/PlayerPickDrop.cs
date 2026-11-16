@@ -7,6 +7,7 @@ public class PlayerPickDrop : MonoBehaviour
 
     [SerializeField] private Transform objectGrabKnifeTransform;
     [SerializeField] private Transform objectGrabCucharonTransform;
+    [SerializeField] private Transform objectGrabCucharitaTransform;
     [SerializeField] private Transform objectGrabTelaTransform;
 
 
@@ -52,7 +53,30 @@ public class PlayerPickDrop : MonoBehaviour
 
                             CucharonSystem.cucharonEnMano = true;
                         }
+                        else if (raycastHit.transform.CompareTag("CucharaEspecias"))
+                        {
+                            objectSelected.Grab(objectGrabCucharitaTransform);
+
+                            Collider[] collidersCucharita = objectSelected.GetComponentsInChildren<Collider>();
+                            foreach (Collider col in collidersCucharita)
+                            {
+                                col.enabled = false;
+                            }
+
+                        }
+                        
                         else if (raycastHit.transform.CompareTag("Tela") || raycastHit.transform.name.Contains("Tela"))
+                        {
+                            if (objectGrabTelaTransform != null)
+                            {
+                                objectSelected.Grab(objectGrabTelaTransform);
+                            }
+                            else
+                            {
+                                objectSelected.Grab(objectGrabPointTransform);
+                            }
+                        }
+                        else if (raycastHit.transform.CompareTag("PescadoCortado") || raycastHit.transform.name.Contains("Pescao"))
                         {
                             if (objectGrabTelaTransform != null)
                             {
@@ -98,6 +122,7 @@ public class PlayerPickDrop : MonoBehaviour
 
                 SistemaCorteObjeto.cuchilloEnMano = false;
                 CucharonSystem.cucharonEnMano = false;
+                CucharitaEspecias.cucharaEspeciasEnMano = false;
 
                 if (objectSelected != null)
                 {

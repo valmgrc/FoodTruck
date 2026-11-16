@@ -15,8 +15,8 @@ public class GeneradorClientes : MonoBehaviour
     [HideInInspector] public bool punto2Ocupado = false;
 
 
-    public float tiempoMinimoSpawn = 5f;
-    public float tiempoMaximoSpawn = 10f; 
+    public float tiempoMinimoSpawn = 12f; 
+    public float tiempoMaximoSpawn = 25f; 
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class GeneradorClientes : MonoBehaviour
 
     IEnumerator RutinaBucleClientes()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(6f); 
 
         while (true)
         {
@@ -43,10 +43,10 @@ public class GeneradorClientes : MonoBehaviour
         if (!punto1Ocupado) puntosDisponibles.Add(1);
         if (!punto2Ocupado) puntosDisponibles.Add(2);
 
-        if (puntosDisponibles.Count == 0) return; 
+        if (puntosDisponibles.Count == 0) return;
 
         int cantidadASpawnear = 1;
-        if (puntosDisponibles.Count == 2 && Random.value > 0.5f)
+        if (puntosDisponibles.Count == 2 && Random.value > 0.85f)
         {
             cantidadASpawnear = 2;
         }

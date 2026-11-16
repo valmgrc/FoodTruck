@@ -16,6 +16,10 @@ TagManager:
   - Cebollin
   - Parrilla
   - Tela
+  - PescadoCortado
+  - PlatoLargo
+  - VinoArroz
+  - CucharaEspecias
   layers:
   - Default
   - TransparentFX
