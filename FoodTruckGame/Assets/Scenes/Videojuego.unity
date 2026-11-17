@@ -585,7 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cestas:
   - nombreCesta: "CestaPeque\xF1a"
-    objetoCesta: {fileID: 8648853922431755376}
+    objetoCesta: {fileID: 919132148124139912}
     objetosEnEstaCesta:
     - {fileID: 5569147027633585387}
     - {fileID: 7213742533313314397}
@@ -599,7 +599,7 @@ MonoBehaviour:
     - {fileID: 1583465114}
     indiceActual: 0
   - nombreCesta: CestaGrande
-    objetoCesta: {fileID: 8648853922724399491}
+    objetoCesta: {fileID: 919132148355984507}
     objetosEnEstaCesta:
     - {fileID: 7271275444320552677}
     - {fileID: 8896345655121475079}
@@ -611,7 +611,6 @@ MonoBehaviour:
     - {fileID: 1424760598}
     indiceActual: 0
   materialBlancoInvalido: {fileID: 2100000, guid: eaf6e1be66783dc409b81b3ad6b23712, type: 2}
-  scriptTiempoPreparacion: {fileID: 1879406187}
   tutorialManager: {fileID: 2131536186}
   distanciaRaycast: 5
   capasSuperficies:
@@ -6141,6 +6140,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232911842}
   m_CullTransparentMesh: 1
+--- !u!1 &242512588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242512589}
+  m_Layer: 0
+  m_Name: PuntoInicioPedidos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &242512589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242512588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0.13, y: -0.498, z: 3.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1164349397}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &244210704
 GameObject:
   m_ObjectHideFlags: 0
@@ -6554,6 +6584,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Papa
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &354223404
 Rigidbody:
@@ -7026,7 +7057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &383585687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7047,7 +7078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tiempo restante para cocinar: 1:00'
+  m_text: 1:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
   m_sharedMaterial: {fileID: -2580038746964475593, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
@@ -7112,7 +7143,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 154.80869, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7137,12 +7168,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 2.81, y: 2.81, z: 2.81}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 1056847813}
   m_Father: {fileID: 1879406182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3, y: 370}
+  m_AnchoredPosition: {x: -30, y: 370}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &383710980
@@ -7579,7 +7611,7 @@ Transform:
   m_GameObject: {fileID: 468705338}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: -0.292, z: -0.097}
+  m_LocalPosition: {x: 0.073, y: -0.331, z: 0.125}
   m_LocalScale: {x: 0.0053782747, y: 0.0053782747, z: 0.0053782747}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -8602,6 +8634,143 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &529041202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529041203}
+  - component: {fileID: 529041205}
+  - component: {fileID: 529041204}
+  m_Layer: 5
+  m_Name: TextoTimerPedidos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &529041203
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529041202}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 2.81, y: 2.81, z: 2.81}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1105072911}
+  m_Father: {fileID: 1879406182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -30, y: 370}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &529041204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529041202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 1:00
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_sharedMaterial: {fileID: -2580038746964475593, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 154.80869, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &529041205
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529041202}
+  m_CullTransparentMesh: 1
 --- !u!1 &536253347
 GameObject:
   m_ObjectHideFlags: 0
@@ -8838,6 +9007,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!114 &571048808
 MonoBehaviour:
@@ -8966,7 +9136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -61, y: 453}
+  m_AnchoredPosition: {x: -61, y: 412.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &621020732
@@ -8992,7 +9162,7 @@ MonoBehaviour:
   m_text: "Prep\xE1rate para atender"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -2580038746964475593, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9057,7 +9227,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -276.50024, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &621020733
@@ -9388,6 +9558,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &671435683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 671435685}
+  - component: {fileID: 671435684}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &671435684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671435683}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b93883774ca2124498698cf414e3fd8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tiempoRestanteServicio: 180
+  textoCronometro: {fileID: 529041204}
+  nombreEscenaFinal: FinPrueba
+  tiempoAgotado: 0
+--- !u!4 &671435685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671435683}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.9406538, y: -0.53264713, z: -0.5331434}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &674993484
 GameObject:
   m_ObjectHideFlags: 0
@@ -10084,6 +10302,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 1415556417}
+--- !u!1 &863897526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863897527}
+  m_Layer: 0
+  m_Name: Monedas2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863897527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863897526}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.92, y: 0.463, z: 4.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1164349397}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &883909443
 GameObject:
   m_ObjectHideFlags: 0
@@ -10728,6 +10977,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Papa
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1043536783
 Rigidbody:
@@ -10856,6 +11106,142 @@ MonoBehaviour:
   textoAviso: {fileID: 485270356}
   tiempoVisibilidadTexto: 2
   tiempoFade: 1
+--- !u!1 &1056847812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056847813}
+  - component: {fileID: 1056847815}
+  - component: {fileID: 1056847814}
+  m_Layer: 5
+  m_Name: TextoCocina
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1056847813
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056847812}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 383585689}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -33.807823, y: 0}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1056847814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056847812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Tiempo restante para cocinar:'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_sharedMaterial: {fileID: -2580038746964475593, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 67.92733, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1056847815
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056847812}
+  m_CullTransparentMesh: 1
 --- !u!1 &1063249268
 GameObject:
   m_ObjectHideFlags: 0
@@ -11172,6 +11558,142 @@ RectTransform:
   m_AnchoredPosition: {x: 0.185, y: 0.088}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1105072910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105072911}
+  - component: {fileID: 1105072913}
+  - component: {fileID: 1105072912}
+  m_Layer: 5
+  m_Name: TextoCocina
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1105072911
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105072910}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 529041203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -33.807823, y: 0}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1105072912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105072910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Tiempo restante para cerrar:'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_sharedMaterial: {fileID: -2580038746964475593, guid: 0cb66bb5061ee934ba7be80d59466ff6, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 67.92733, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1105072913
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105072910}
+  m_CullTransparentMesh: 1
 --- !u!1 &1108207419
 GameObject:
   m_ObjectHideFlags: 0
@@ -11445,6 +11967,9 @@ Transform:
   - {fileID: 536253348}
   - {fileID: 205544966}
   - {fileID: 247508561}
+  - {fileID: 242512589}
+  - {fileID: 863897527}
+  - {fileID: 1431802146}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1164349398
@@ -11462,12 +11987,15 @@ MonoBehaviour:
   prefabCliente: {fileID: 2770534665942812733, guid: f68cb5fdee751e5478e4f60d7790a42e, type: 3}
   puntoSpawn1: {fileID: 62950464}
   puntoDestino1: {fileID: 200790126}
+  puntoMonedas1: {fileID: 1431802146}
   punto1Ocupado: 0
   puntoSpawn2: {fileID: 1108207420}
   puntoDestino2: {fileID: 536253348}
+  puntoMonedas2: {fileID: 863897527}
   punto2Ocupado: 0
-  tiempoMinimoSpawn: 3
-  tiempoMaximoSpawn: 8
+  tiempoMinimoDescanso: 10
+  tiempoMaximoDescanso: 18
+  soloUnClienteALaVez: 1
 --- !u!1 &1171905223
 GameObject:
   m_ObjectHideFlags: 0
@@ -11620,7 +12148,7 @@ Transform:
   m_GameObject: {fileID: 1192176683}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.28293687, y: 0.12000009, z: 0}
+  m_LocalPosition: {x: -0.222, y: 0.12, z: 0.46}
   m_LocalScale: {x: 100, y: 100, z: 100.000015}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17291,6 +17819,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Ajo Pelado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1297806223
 Rigidbody:
@@ -17779,6 +18308,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1321026124
 Rigidbody:
@@ -18147,6 +18677,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1339965817
 Rigidbody:
@@ -18591,6 +19122,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1365242210
 Rigidbody:
@@ -19003,7 +19535,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -85.77002, y: 57.785004}
-  m_SizeDelta: {x: 114.86, y: 140.05}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1415556417
 MonoBehaviour:
@@ -19412,6 +19944,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2836439255435353027, guid: a86af659c52a1f54c924985f5d11a2b9, type: 3}
   m_PrefabInstance: {fileID: 1425647990}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1431802145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1431802146}
+  m_Layer: 0
+  m_Name: Monedas1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1431802146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431802145}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -3.872, y: 0.407, z: 4.6399994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1164349397}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1442649843
 GameObject:
   m_ObjectHideFlags: 0
@@ -19699,6 +20262,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1485908824
 Rigidbody:
@@ -19856,10 +20420,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1415556416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 38.955, y: -101.090004}
-  m_SizeDelta: {x: 57.91, y: 57.92}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1513958270
 MonoBehaviour:
@@ -19910,8 +20474,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -19951,7 +20515,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1513958271
@@ -21527,6 +22091,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Ajo Pelado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1703526797
 Rigidbody:
@@ -22572,6 +23137,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Ajo Pelado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1871910453
 Rigidbody:
@@ -22709,6 +23275,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 383585689}
+  - {fileID: 529041203}
   - {fileID: 910626419}
   - {fileID: 1630421077}
   - {fileID: 485270355}
@@ -22810,7 +23377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f496548bcdb70304caa7437b75b0c164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiempoRestante: 60
+  tiempoRestante: 120
   textoCronometro: {fileID: 383585687}
   tiempoAgotado: 0
 --- !u!1 &1883470930
@@ -23286,6 +23853,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 1955698581}
   Contenido: 
   Titulo: Mijo
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1924917605
 Rigidbody:
@@ -23653,7 +24221,7 @@ MonoBehaviour:
   m_margin: {x: -5.272461, y: 0, z: -301.89893, w: -50.704346}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1982044401
@@ -23768,6 +24336,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 358019044}
   Contenido: 
   Titulo: Mijo
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &1992540656
 Rigidbody:
@@ -24513,10 +25082,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1415556416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 57.43, y: -36.065002}
-  m_SizeDelta: {x: 94.86, y: 52.13}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086254408
 MonoBehaviour:
@@ -24606,7 +25175,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2086254409
@@ -24730,8 +25299,10 @@ MonoBehaviour:
   duracionFade: 0.3
   panelFadeNegro: {fileID: 2133085943}
   canvasGroupFade: {fileID: 2133085947}
-  generadorClientes: {fileID: 1164349398}
+  puntoInicioPreparacion: {fileID: 242512589}
   textoPreparate: {fileID: 621020732}
+  scriptTiempoPreparacion: {fileID: 1879406187}
+  generadorClientes: {fileID: 1164349398}
   jugadorTransform: {fileID: 937451011614432278}
   puntoInicioClientes: {fileID: 247508561}
   totalVentanas: 2
@@ -25318,7 +25889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &383168757482229899
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -25565,7 +26136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &504165986609886845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25622,8 +26193,8 @@ GameObject:
   - component: {fileID: 797445314681774244}
   - component: {fileID: 7627070797132270032}
   - component: {fileID: 6003956597975079357}
-  - component: {fileID: 7627070797132270033}
   - component: {fileID: 7627070797132270034}
+  - component: {fileID: 7627070797132270035}
   m_Layer: 0
   m_Name: CajaVerduraDaikon
   m_TagString: Untagged
@@ -26164,8 +26735,8 @@ Transform:
   m_LocalScale: {x: 0.37151647, y: 0.3715164, z: 0.37151638}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1789938023}
   - {fileID: 2004008076203864054}
+  - {fileID: 1789938023}
   m_Father: {fileID: 1171905224}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 98.263}
 --- !u!33 &986104451814528842
@@ -27689,10 +28260,11 @@ MonoBehaviour:
   esBowl: 0
   elementosActivarAlTerminar: []
   scriptsAControlar: []
-  alturaApoyoY: 0
+  alturaApoyoY: -0.02
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!1 &2351121289212293873
 GameObject:
   m_ObjectHideFlags: 0
@@ -27722,7 +28294,6 @@ GameObject:
   - component: {fileID: 975062029904889535}
   - component: {fileID: 1970168884478086650}
   - component: {fileID: 3839281126046488164}
-  - component: {fileID: 3839281126046488165}
   - component: {fileID: 3839281126046488166}
   m_Layer: 0
   m_Name: CajaMijo
@@ -27932,7 +28503,7 @@ Transform:
   m_GameObject: {fileID: 2696132840882923995}
   serializedVersion: 2
   m_LocalRotation: {x: 0.8658578, y: -0.08001574, z: 0.41444772, w: 0.2685532}
-  m_LocalPosition: {x: -0.08752628, y: -0.041880164, z: 0.3177244}
+  m_LocalPosition: {x: -0.088, y: -0.042, z: 0.467}
   m_LocalScale: {x: 2.691671, y: 2.6916711, z: 2.6916704}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28034,6 +28605,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 1351919086}
   Contenido: 
   Titulo: Daikon
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &2698241796718862836
 Rigidbody:
@@ -28909,7 +29481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3674238399523717681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2369352044418056570, guid: 6ff1f962e5fb7d2418ed9f2d4c70c680, type: 3}
@@ -29083,28 +29655,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3839281126046488165
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2408215584335266376}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2732112950182610041, guid: d5b8cd4bc8fe3654d847dc1fdcb284e9, type: 3}
 --- !u!114 &3839281126046488166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29131,6 +29681,7 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!114 &3929544313187016932 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2819752816649775664, guid: 6ff1f962e5fb7d2418ed9f2d4c70c680, type: 3}
@@ -29464,6 +30015,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!4 &4243770799124713895
 Transform:
@@ -29474,7 +30026,7 @@ Transform:
   m_GameObject: {fileID: 5497023114251266683}
   serializedVersion: 2
   m_LocalRotation: {x: -0.19276196, y: 0.46865916, z: 0.82315063, w: -0.25617275}
-  m_LocalPosition: {x: 0.08891229, y: 0.07888544, z: 0.69086826}
+  m_LocalPosition: {x: 0.144, y: 0.092, z: 0.793}
   m_LocalScale: {x: 2.69167, y: 2.6916711, z: 2.6916704}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30136,7 +30688,7 @@ Transform:
   m_GameObject: {fileID: 7639385141467625001}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.036, y: 0, z: 1.0114703}
+  m_LocalPosition: {x: 0.001, y: 0, z: 1.0114703}
   m_LocalScale: {x: 104.67245, y: 104.67243, z: 104.672485}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30421,6 +30973,7 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!4 &5127801245052223981
 Transform:
   m_ObjectHideFlags: 0
@@ -30896,7 +31449,7 @@ GameObject:
   - component: {fileID: 5569147027633585386}
   - component: {fileID: 5569147027633585387}
   m_Layer: 0
-  m_Name: CUCHILLO
+  m_Name: Cuchillo
   m_TagString: Cuchillo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30932,10 +31485,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   puedoInteractuar: 1
-  distanciaMaxima: 5
+  distanciaMaxima: 8
   objetoBrillo: {fileID: 1551488022}
   Contenido: 
   Titulo: Cuchillo
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!64 &5569147027633585383
 MeshCollider:
@@ -31041,6 +31595,7 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 1
 --- !u!1 &5570878145985582569
 GameObject:
   m_ObjectHideFlags: 0
@@ -31619,6 +32174,7 @@ GameObject:
   - component: {fileID: 3824143355868725709}
   - component: {fileID: 6089117258396608750}
   - component: {fileID: 6089117258396608749}
+  - component: {fileID: 6089117258396608751}
   m_Layer: 0
   m_Name: MijoCrudo
   m_TagString: Untagged
@@ -31666,6 +32222,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!65 &6089117258396608751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089117258396608748}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008498894, y: 0.008498894, z: 0.001}
+  m_Center: {x: 3.295305e-10, y: -0.000000015297227, z: 0.004}
 --- !u!4 &6112148609100443773
 Transform:
   m_ObjectHideFlags: 0
@@ -31846,6 +32423,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 1195144062}
   Contenido: 
   Titulo: Daikon
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &6230583982134026579
 Rigidbody:
@@ -32215,6 +32793,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 123288044}
   Contenido: 
   Titulo: "Ceboll\xEDn"
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!114 &6562754696883819603
 MonoBehaviour:
@@ -32517,6 +33096,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Sal
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!33 &6647567482767846394
 MeshFilter:
@@ -32968,8 +33548,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6269041331730527077}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.94668, y: -0.23363523, z: 0.13178012, w: -0.17845327}
-  m_LocalPosition: {x: -1.759, y: 0.71, z: -0.046}
+  m_LocalRotation: {x: -0.73811406, y: -0.15114392, z: -0.20421706, w: 0.6250108}
+  m_LocalPosition: {x: -2.1382499, y: 0.51438427, z: -0.04000345}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32978,7 +33558,7 @@ Transform:
   - {fileID: 244210705}
   - {fileID: 468705339}
   m_Father: {fileID: 1172800679}
-  m_LocalEulerAnglesHint: {x: 23.544, y: -169.56, z: 154.455}
+  m_LocalEulerAnglesHint: {x: -79.863, y: -219.75, z: 190.527}
 --- !u!1 &7057054298054139752
 GameObject:
   m_ObjectHideFlags: 0
@@ -33049,6 +33629,7 @@ GameObject:
   - component: {fileID: 5078793684822012663}
   - component: {fileID: 2246336059793894454}
   - component: {fileID: 7213742533313314397}
+  - component: {fileID: 7213742533313314398}
   m_Layer: 0
   m_Name: CajaVerduraCebollin
   m_TagString: Untagged
@@ -33082,6 +33663,28 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
+--- !u!65 &7213742533313314398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7213742533313314396}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.0000001, z: 0.07}
+  m_Center: {x: 0, y: 0, z: -0.01}
 --- !u!4 &7256470665251544989
 Transform:
   m_ObjectHideFlags: 0
@@ -33139,13 +33742,13 @@ MonoBehaviour:
   elementosActivarAlTerminar:
   - {fileID: 7639385141467625001}
   scriptsAControlar:
-  - {fileID: 7271275444320552683}
   - {fileID: 7271275444320552679}
   - {fileID: 7271275444320552678}
   alturaApoyoY: 0.18
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!114 &7271275444320552678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33198,6 +33801,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Olla
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &7271275444320552680
 Rigidbody:
@@ -33222,7 +33826,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
@@ -33241,7 +33845,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -33265,7 +33869,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 2.0006886, y: 2.0006886, z: 2.3184433}
   m_Center: {x: 0.00000023841858, y: 0.00000008940695, z: -0.15922154}
@@ -34061,6 +34665,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: Ideal para servir especias
   Titulo: Cuchara
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &7573317284792895451
 Rigidbody:
@@ -34147,7 +34752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7578586844806158764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34182,6 +34787,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: Tapa de manera perfecta vasijas medianas
   Titulo: Tela
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &7578586844806158765
 Rigidbody:
@@ -34335,28 +34941,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505816405928122086}
   m_Mesh: {fileID: 4576220709146388904, guid: 58430ba5c48b1be4eb275f16fd775bb1, type: 3}
---- !u!64 &7627070797132270033
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 505816405928122086}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4576220709146388904, guid: 58430ba5c48b1be4eb275f16fd775bb1, type: 3}
 --- !u!114 &7627070797132270034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34383,6 +34967,28 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
+--- !u!65 &7627070797132270035
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505816405928122086}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000002, y: 1.0000002, z: 0.06}
+  m_Center: {x: 0.000000022821254, y: -0.000000018227405, z: 0.04}
 --- !u!1 &7639385141467625001
 GameObject:
   m_ObjectHideFlags: 0
@@ -34510,6 +35116,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 1524347663}
   Contenido: 
   Titulo: "Ceboll\xEDn"
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!114 &7647692334625053352
 MonoBehaviour:
@@ -34885,7 +35492,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.8498892, y: 0.8654857, z: 0.040496282}
   m_Center: {x: 0.0000000012437105, y: -0.000000018705459, z: 0.019638365}
@@ -35473,6 +36080,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Pescado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!64 &8597444100497308022
 MeshCollider:
@@ -35697,9 +36305,12 @@ GameObject:
   - component: {fileID: 5454390384511439831}
   - component: {fileID: 1869519498856249956}
   - component: {fileID: 8648853922431755377}
+  - component: {fileID: 8648853922431755379}
+  - component: {fileID: 8648853922431755378}
+  - component: {fileID: 8648853922431755380}
   m_Layer: 0
   m_Name: cesto
-  m_TagString: Untagged
+  m_TagString: Cesta
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35721,10 +36332,86 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.82696617, y: 0.7890243, z: 0.62499595}
   m_Center: {x: 0, y: 0, z: -0.023037164}
+--- !u!114 &8648853922431755378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922431755376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.96183103, g: 1, b: 0.1415093, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8648853922431755379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922431755376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b95f0553f64dd4eb9a32c848346c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mensajeAccion: SACAR OBJETO
+  teclaAccion: ClickIzq
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8648853922431755376}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  puedoInteractuar: 1
+  distanciaMaxima: 6
+  objetoBrillo: {fileID: 1064345094}
+  Contenido: 
+  Titulo: "Cesta peque\xF1a"
+  bloquearRotacion: 0
+  velocidadRotacion: 0
+--- !u!64 &8648853922431755380
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922431755376}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3896990227922632024, guid: 39653217305f2c24fa5121f80e67d68d, type: 3}
 --- !u!1 &8648853922724399491
 GameObject:
   m_ObjectHideFlags: 0
@@ -35737,9 +36424,12 @@ GameObject:
   - component: {fileID: 5454390384223256100}
   - component: {fileID: 1869519498605533079}
   - component: {fileID: 8648853922724399492}
+  - component: {fileID: 8648853922724399494}
+  - component: {fileID: 8648853922724399493}
+  - component: {fileID: 8648853922724399495}
   m_Layer: 0
   m_Name: cesto
-  m_TagString: Untagged
+  m_TagString: Cesta
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35761,10 +36451,86 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.82696605, y: 0.7890242, z: 0.6249959}
   m_Center: {x: 8.184445e-17, y: 0.00000023841858, z: -0.023037147}
+--- !u!114 &8648853922724399493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922724399491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.90612537, g: 1, b: 0.111320674, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8648853922724399494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922724399491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b95f0553f64dd4eb9a32c848346c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mensajeAccion: SACAR OBJETO
+  teclaAccion: ClickIzq
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8648853922724399491}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  puedoInteractuar: 1
+  distanciaMaxima: 6
+  objetoBrillo: {fileID: 675220185}
+  Contenido: 
+  Titulo: Cesta grande
+  bloquearRotacion: 0
+  velocidadRotacion: 0
+--- !u!64 &8648853922724399495
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648853922724399491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3896990227922632024, guid: 39653217305f2c24fa5121f80e67d68d, type: 3}
 --- !u!23 &8666280808718104035
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35862,6 +36628,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Ajo Pelado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &8666280808718104038
 Rigidbody:
@@ -36182,6 +36949,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Pescado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &8833526459400258128
 Rigidbody:
@@ -36379,6 +37147,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 468705338}
   Contenido: 
   Titulo: "Cuchar\xF3n"
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!64 &8851434726786744559
 MeshCollider:
@@ -36435,10 +37204,11 @@ MonoBehaviour:
   scriptsAControlar:
   - {fileID: 8851434726786744558}
   - {fileID: 8851434726786744557}
-  alturaApoyoY: 0.38
+  alturaApoyoY: 0.07
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 1
-  rotacionInicialEuler: {x: 0, y: 0, z: 90.7}
+  rotacionInicialEuler: {x: 0, y: 39.72, z: 90.7}
+  bloquearRotacion: 1
 --- !u!1 &8894238678238863726
 GameObject:
   m_ObjectHideFlags: 0
@@ -36495,6 +37265,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: Excelente para marinar pescado
   Titulo: Vino de arroz
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!64 &8894238678238863728
 MeshCollider:
@@ -36678,6 +37449,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 1063249268}
   Contenido: 
   Titulo: Vasija Mediana
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &8896345655121475076
 Rigidbody:
@@ -36768,6 +37540,7 @@ MonoBehaviour:
   alturaExtraApilado: 0.15
   usarRotacionPersonalizada: 0
   rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!1 &8954510622432710250
 GameObject:
   m_ObjectHideFlags: 0
@@ -37008,6 +37781,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Papa
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &8980588326028183529
 Rigidbody:
@@ -37229,6 +38003,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Pescado
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!1 &9066876800708026250
 GameObject:
@@ -37358,6 +38133,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Jengibre
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!54 &9155129384532029049
 Rigidbody:
@@ -37520,6 +38296,7 @@ MonoBehaviour:
   objetoBrillo: {fileID: 0}
   Contenido: 
   Titulo: Wok
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!64 &9173295484777841274
 MeshCollider:
@@ -37589,3 +38366,4 @@ SceneRoots:
   - {fileID: 543450652582648626}
   - {fileID: 543450652359407297}
   - {fileID: 73137184}
+  - {fileID: 671435685}

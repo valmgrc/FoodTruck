@@ -20,6 +20,7 @@ TagManager:
   - PlatoLargo
   - VinoArroz
   - CucharaEspecias
+  - Cesta
   layers:
   - Default
   - TransparentFX

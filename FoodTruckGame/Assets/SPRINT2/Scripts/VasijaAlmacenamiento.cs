@@ -4,11 +4,9 @@ public class VasijaAlmacenamiento : MonoBehaviour
 {
     public int porcionesActuales = 0;
     public int porcionesMaximas = 2;
-
     public GameObject[] nivelesDeLlenado;
 
-    [Header("Servicio en Fase de Pedidos")]
-    public int porcionesCucharadasRestantes = 20; // 20 cucharadas antes de vaciarse
+    public int porcionesCucharadasRestantes = 20; 
 
     void Start()
     {
@@ -21,7 +19,6 @@ public class VasijaAlmacenamiento : MonoBehaviour
 
         if (cucharon != null)
         {
-            // FASE 1: Llenar la vasija desde la olla (cucharón cargado)
             if (cucharon.tieneSopa)
             {
                 bool exito = AgregarPorcion();
@@ -36,13 +33,11 @@ public class VasijaAlmacenamiento : MonoBehaviour
                     }
                 }
             }
-            // FASE 2: Servir de la vasija al Bowl (cucharón vacío)
             else if (!cucharon.tieneSopa && porcionesActuales > 0 && porcionesCucharadasRestantes > 0)
             {
                 cucharon.TomarSopaDeVasija();
                 porcionesCucharadasRestantes--;
 
-                // Si se agotan las 20 cucharadas, la vasija queda vacía
                 if (porcionesCucharadasRestantes <= 0)
                 {
                     porcionesActuales = 0;
@@ -60,7 +55,7 @@ public class VasijaAlmacenamiento : MonoBehaviour
         }
 
         porcionesActuales++;
-        porcionesCucharadasRestantes = 20; // Se recarga a 20 porciones al llenarla
+        porcionesCucharadasRestantes = 20; 
         ActualizarVisualesVasija();
         return true;
     }

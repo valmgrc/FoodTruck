@@ -5,9 +5,7 @@ using TMPro;
 public class ButtonPromptManager : MonoBehaviour
 {
     public static ButtonPromptManager Instance;
-
     public GameObject panelPromptContainer;
-
     public Sprite spriteTeclaE;
     public Sprite spriteClickIzq;
     public Sprite spriteRueda;

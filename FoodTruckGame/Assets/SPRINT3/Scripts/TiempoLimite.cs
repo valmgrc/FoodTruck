@@ -3,7 +3,7 @@ using TMPro;
 
 public class TiempoLimite : MonoBehaviour
 {
-    public float tiempoRestante = 60f; 
+    public float tiempoRestante = 120f; 
     public TextMeshProUGUI textoCronometro;
 
     [HideInInspector] public bool tiempoAgotado = false;

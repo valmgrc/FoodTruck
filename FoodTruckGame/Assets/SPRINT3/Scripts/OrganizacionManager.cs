@@ -18,12 +18,14 @@ public class OrganizacionManager : MonoBehaviour
         }
     }
 
+
     public CestaConfiguracion[] cestas;
+
+
     public Material materialBlancoInvalido;
 
-
-    public TiempoLimite scriptTiempoPreparacion;
     public TutorialManager tutorialManager;
+
     public float distanciaRaycast = 6f;
     public LayerMask capasSuperficies = ~0;
 
@@ -40,9 +42,6 @@ public class OrganizacionManager : MonoBehaviour
     {
         if (capasSuperficies.value == 0) capasSuperficies = ~0;
 
-        if (scriptTiempoPreparacion != null)
-            scriptTiempoPreparacion.enabled = false;
-
         foreach (var cesta in cestas)
         {
             if (cesta.objetosEnEstaCesta != null)
@@ -56,7 +55,7 @@ public class OrganizacionManager : MonoBehaviour
 
         if (tutorialManager != null)
         {
-            tutorialManager.MostrarQuest(1, "Organización", "Acomoda los objetos que están dentro de la cesta");
+            tutorialManager.MostrarQuest(1, "Organización", "Haz clic en las cestas para sacar tus utensilios y acomodarlos");
         }
     }
 
@@ -73,14 +72,15 @@ public class OrganizacionManager : MonoBehaviour
         }
         else
         {
-            float scroll = Input.mouseScrollDelta.y;
-            if (scroll > 0f)
+            if (!objetoEnMano.bloquearRotacion)
             {
-                rotacionYActual -= 20f;
+                float scroll = Input.mouseScrollDelta.y;
+                if (scroll > 0f) rotacionYActual -= 20f;
+                else if (scroll < 0f) rotacionYActual += 20f;
             }
-            else if (scroll < 0f)
+            else
             {
-                rotacionYActual += 20f;
+                rotacionYActual = 0f;
             }
 
             ActualizarPosicionObjetoEnMano();
@@ -125,6 +125,11 @@ public class OrganizacionManager : MonoBehaviour
     {
         objetoEnMano = cesta.objetosEnEstaCesta[cesta.indiceActual];
         cesta.indiceActual++;
+
+        if (!cesta.TieneObjetosPendientes() && cesta.objetoCesta != null)
+        {
+            cesta.objetoCesta.SetActive(false);
+        }
 
         rotacionYActual = 0f;
         objetoEnMano.PrepararParaColocar();
@@ -213,7 +218,7 @@ public class OrganizacionManager : MonoBehaviour
 
         if (ContarObjetosRestantesTotales() == 0)
         {
-            FinalizarFaseOrganizacion();
+            IniciarSecuenciaTransicionPedidos();
         }
         else if (tutorialManager != null)
         {
@@ -234,9 +239,11 @@ public class OrganizacionManager : MonoBehaviour
         return total;
     }
 
-    void FinalizarFaseOrganizacion()
+    void IniciarSecuenciaTransicionPedidos()
     {
         faseActiva = false;
+
+        List<ObjetoEmpacado> listaObjetosAcomodados = new List<ObjetoEmpacado>();
 
         foreach (var cesta in cestas)
         {
@@ -244,7 +251,10 @@ public class OrganizacionManager : MonoBehaviour
             {
                 foreach (var obj in cesta.objetosEnEstaCesta)
                 {
-                    if (obj != null) obj.ActivarParaCocina();
+                    if (obj != null)
+                    {
+                        listaObjetosAcomodados.Add(obj);
+                    }
                 }
             }
 
@@ -252,12 +262,9 @@ public class OrganizacionManager : MonoBehaviour
                 cesta.objetoCesta.SetActive(false);
         }
 
-        if (scriptTiempoPreparacion != null)
-            scriptTiempoPreparacion.enabled = true;
-
         if (tutorialManager != null)
         {
-            tutorialManager.MostrarQuest(1, "Preparación", "Comienza a preparar tus platillos antes de que acabe el tiempo");
+            tutorialManager.IniciarTransicionDesdeOrganizacion(listaObjetosAcomodados);
         }
     }
 }

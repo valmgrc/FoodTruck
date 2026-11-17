@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class InstructivoController : MonoBehaviour
 {
-
     public GameObject instructivoPanel;
-    
-
     public MonoBehaviour scriptMovimientoJugador;
 
     void Start()

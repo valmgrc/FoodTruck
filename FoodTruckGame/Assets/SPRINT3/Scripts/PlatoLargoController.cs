@@ -3,10 +3,7 @@ using System.Collections;
 
 public class PlatoLargoController : MonoBehaviour
 {
-
     public Transform puntoPescado;
-
-
     public GameObject planoVino;
     public Transform puntoVinoVacio;
     public Transform puntoVinoLleno;

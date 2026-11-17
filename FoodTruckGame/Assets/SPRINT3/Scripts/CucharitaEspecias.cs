@@ -5,7 +5,6 @@ public class CucharitaEspecias : MonoBehaviour
 {
     public static bool cucharaEspeciasEnMano = false;
 
-
     public GameObject objetoSalEnCuchara; 
     public ParticleSystem particulasSal; 
     public bool tieneSalCargada = false;

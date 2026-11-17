@@ -8,27 +8,27 @@ public class ObjetoEmpacado : MonoBehaviour
 
     public GameObject[] elementosActivarAlTerminar;
 
-
     public List<MonoBehaviour> scriptsAControlar = new List<MonoBehaviour>();
 
 
     public float alturaApoyoY = 0f;
     public float alturaExtraApilado = 0.08f;
 
-
     public bool usarRotacionPersonalizada = false;
     public Vector3 rotacionInicialEuler = Vector3.zero;
+    public bool bloquearRotacion = false;
 
     private Collider[] todosLosColliders;
     private Rigidbody[] todosLosRigidbodies;
     private Renderer[] todosLosRenderers;
     private Dictionary<Renderer, Material[]> materialesOriginales = new Dictionary<Renderer, Material[]>();
+    private Dictionary<Rigidbody, bool> estadoKinematicOriginal = new Dictionary<Rigidbody, bool>();
+    private Dictionary<Rigidbody, bool> estadoGravityOriginal = new Dictionary<Rigidbody, bool>();
     private bool mostrandoBlanco = false;
 
     private Quaternion rotacionBase;
-
-    private Dictionary<Transform, Vector3> posicionesLocalesHijos = new Dictionary<Transform, Vector3>();
-    private Dictionary<Transform, Quaternion> rotacionesLocalesHijos = new Dictionary<Transform, Quaternion>();
+    private Dictionary<Transform, Vector3> offsetRelativoHijos = new Dictionary<Transform, Vector3>();
+    private Dictionary<Transform, Quaternion> rotacionRelativaHijos = new Dictionary<Transform, Quaternion>();
 
     void Awake()
     {
@@ -36,12 +36,23 @@ public class ObjetoEmpacado : MonoBehaviour
         todosLosRigidbodies = GetComponentsInChildren<Rigidbody>(true);
         todosLosRenderers = GetComponentsInChildren<Renderer>(true);
 
+
+        foreach (var rb in todosLosRigidbodies)
+        {
+            if (rb != null)
+            {
+                estadoKinematicOriginal[rb] = rb.isKinematic;
+                estadoGravityOriginal[rb] = rb.useGravity;
+            }
+        }
+
         foreach (Transform hijo in GetComponentsInChildren<Transform>(true))
         {
             if (hijo != transform)
             {
-                posicionesLocalesHijos[hijo] = hijo.localPosition;
-                rotacionesLocalesHijos[hijo] = hijo.localRotation;
+                Vector3 diferenciaMundo = hijo.position - transform.position;
+                offsetRelativoHijos[hijo] = Quaternion.Inverse(transform.rotation) * diferenciaMundo;
+                rotacionRelativaHijos[hijo] = Quaternion.Inverse(transform.rotation) * hijo.rotation;
             }
         }
 
@@ -62,14 +73,14 @@ public class ObjetoEmpacado : MonoBehaviour
         AsegurarScriptsEstado(false);
     }
 
-    void RestaurarPosicionesHijos()
+    void MantenerVerdurasEnCaja()
     {
-        foreach (var kvp in posicionesLocalesHijos)
+        foreach (var kvp in offsetRelativoHijos)
         {
             if (kvp.Key != null)
             {
-                kvp.Key.localPosition = kvp.Value;
-                kvp.Key.localRotation = rotacionesLocalesHijos[kvp.Key];
+                kvp.Key.position = transform.position + (transform.rotation * kvp.Value);
+                kvp.Key.rotation = transform.rotation * rotacionRelativaHijos[kvp.Key];
             }
         }
     }
@@ -102,7 +113,7 @@ public class ObjetoEmpacado : MonoBehaviour
             col.enabled = false;
         }
 
-        RestaurarPosicionesHijos();
+        MantenerVerdurasEnCaja();
     }
 
     public void ActualizarVisualValidez(bool esValido, Material materialInvalidoBlanco)
@@ -143,7 +154,7 @@ public class ObjetoEmpacado : MonoBehaviour
         Quaternion rotacionGiroY = Quaternion.Euler(0f, giroYExtra, 0f);
         transform.rotation = rotacionGiroY * rotacionBase;
 
-        RestaurarPosicionesHijos();
+        MantenerVerdurasEnCaja();
     }
 
     public void ConfirmarColocacion(Vector3 posicionGrid, float giroYExtra)
@@ -156,6 +167,7 @@ public class ObjetoEmpacado : MonoBehaviour
             col.enabled = true;
         }
 
+        MantenerVerdurasEnCaja();
         AsegurarScriptsEstado(false);
     }
 
@@ -168,16 +180,25 @@ public class ObjetoEmpacado : MonoBehaviour
 
         AsegurarScriptsEstado(true);
 
+        Rigidbody rbPadre = GetComponent<Rigidbody>();
         foreach (var rb in todosLosRigidbodies)
         {
             if (rb != null)
             {
-                rb.isKinematic = true;
-                rb.useGravity = false;
+                if (rb == rbPadre)
+                {
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
+                }
+                else if (estadoKinematicOriginal.ContainsKey(rb))
+                {
+                    rb.isKinematic = estadoKinematicOriginal[rb];
+                    rb.useGravity = estadoGravityOriginal[rb];
+                }
             }
         }
 
-        RestaurarPosicionesHijos();
+        MantenerVerdurasEnCaja();
     }
 
     void AsegurarScriptsEstado(bool encender)

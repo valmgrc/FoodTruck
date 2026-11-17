@@ -6,7 +6,6 @@ public class ObjectSelected : MonoBehaviour
 {
     private Rigidbody objectRigidbody;
     private Transform objectGrabPointTransform;
-
     Outline outline;
 
     public string mensajeAccion = "AGARRAR";
@@ -19,15 +18,16 @@ public class ObjectSelected : MonoBehaviour
 
     public GameObject objetoBrillo;
 
-
     public string Contenido;
     public string Titulo;
     private LTDescr delay;
 
     public static ObjectSelected objetoAgarradoActual = null;
+    public bool bloquearRotacion = false;
 
     public static bool hayObjetoAgarrado = false;
     public float velocidadRotacion = 200f;
+
 
     private void Awake()
     {
@@ -49,10 +49,9 @@ public class ObjectSelected : MonoBehaviour
     void Update()
     {
 
-
         if (objectGrabPointTransform != null)
         {
-            if (!gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon") && !gameObject.CompareTag("CucharaEspecias"))
+            if (!bloquearRotacion)
             {
                 float scroll = Input.GetAxis("Mouse ScrollWheel");
                 if (scroll != 0f)
@@ -238,6 +237,11 @@ public class ObjectSelected : MonoBehaviour
                                 }
                             }
                         }
+                    }
+                    if (gameObject.CompareTag("Cesta") || name.Contains("Cesta"))
+                    {
+                        ButtonPromptManager.Instance.MostrarPrompt("ClickIzq", "SACAR OBJETO");
+                        return;
                     }
 
                     if (SistemaCorteObjeto.cuchilloEnMano)

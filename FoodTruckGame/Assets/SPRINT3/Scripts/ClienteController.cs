@@ -16,8 +16,6 @@ public class ClienteController : MonoBehaviour
     public Vector3 offsetPantalla = new Vector3(0, 2f, 0);
     private Camera camaraJugador;
 
-
-
     [HideInInspector] public int idPuntoAsignado;
     [HideInInspector] public GeneradorClientes generadorRef;
 
@@ -27,18 +25,23 @@ public class ClienteController : MonoBehaviour
     private int platoSeleccionadoIndex = 0;
     private int modalidadSeleccionadaIndex = 0;
 
-
     public float tiempoMaximoEspera = 30f;
     private float tiempoRestante;
     private Coroutine corutinaTemporizador;
 
-
     private Outline outline;
+
+
+    private bool intentoFallidoPrevio = false;
+    private bool pedidoEntregadoConExito = false;
+
+
+    public GameObject prefabMuchasMonedas;
+    public GameObject prefabPocasMonedas;
 
     private void Awake()
     {
         camaraJugador = Camera.main;
-
         outline = GetComponent<Outline>();
         if (outline != null) outline.enabled = false;
     }
@@ -46,7 +49,6 @@ public class ClienteController : MonoBehaviour
     public void InicializarCliente(Vector3 puntoDestino)
     {
         destinoActual = puntoDestino;
-
         if (panelPedidoUI != null) panelPedidoUI.SetActive(false);
 
         ElegirPedidoAleatorio();
@@ -66,14 +68,13 @@ public class ClienteController : MonoBehaviour
 
         if (esperandoEnPunto && camaraJugador != null)
         {
-            Ray ray = camaraJugador.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); 
+            Ray ray = camaraJugador.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 5f))
             {
                 if (hit.transform == transform || hit.transform.IsChildOf(transform))
                 {
-
                     if (outline != null) outline.enabled = true;
 
                     if (ObjectSelected.hayObjetoAgarrado && ObjectSelected.objetoAgarradoActual != null)
@@ -91,7 +92,7 @@ public class ClienteController : MonoBehaviour
                                 ButtonPromptManager.Instance.MostrarPrompt("ClickIzq", "ENTREGAR");
                             }
 
-                            if (Input.GetMouseButtonDown(0)) //entregar comidita
+                            if (Input.GetMouseButtonDown(0))
                             {
                                 ProcesarEntrega(bowl, caja);
                             }
@@ -122,10 +123,12 @@ public class ClienteController : MonoBehaviour
 
             Destroy(bowl != null ? bowl.gameObject : caja.gameObject);
 
+            pedidoEntregadoConExito = true;
             FinalizarAtencion();
         }
         else
         {
+            intentoFallidoPrevio = true;
             tiempoRestante -= 5f;
 
             if (textoContemporizador != null)
@@ -144,7 +147,7 @@ public class ClienteController : MonoBehaviour
     {
         if (spritesPlatos != null && spritesPlatos.Length > 0)
         {
-            platoSeleccionadoIndex = Random.Range(0, spritesPlatos.Length);
+            platoSeleccionadoIndex = 0; 
         }
         if (spritesModalidades != null && spritesModalidades.Length > 0)
         {
@@ -258,40 +261,7 @@ public class ClienteController : MonoBehaviour
 
         if (!esBowlValido && !esCajaValida) return;
 
-        bool entregaCorrecta = false;
-
-        if (modalidadSeleccionadaIndex == 0 && esBowlValido)
-        {
-            entregaCorrecta = true;
-        }
-        else if (modalidadSeleccionadaIndex == 1 && esCajaValida)
-        {
-            entregaCorrecta = true;
-        }
-
-        if (entregaCorrecta)
-        {
-            ObjectSelected.hayObjetoAgarrado = false;
-            ObjectSelected.objetoAgarradoActual = null;
-
-            Destroy(bowl != null ? bowl.gameObject : caja.gameObject);
-
-            FinalizarAtencion();
-        }
-        else
-        {
-            tiempoRestante -= 5f;
-
-            if (textoContemporizador != null)
-            {
-                textoContemporizador.text = Mathf.Max(0, Mathf.CeilToInt(tiempoRestante)).ToString() + "s";
-            }
-
-            if (tiempoRestante <= 0f)
-            {
-                FinalizarAtencion();
-            }
-        }
+        ProcesarEntrega(bowl, caja);
     }
 
     void FinalizarAtencion()
@@ -310,6 +280,18 @@ public class ClienteController : MonoBehaviour
         {
             ButtonPromptManager.Instance.OcultarPrompts();
         }
+
+        if (pedidoEntregadoConExito && generadorRef != null)
+        {
+            Transform puntoDondeDejarMonedas = (idPuntoAsignado == 1) ? generadorRef.puntoMonedas1 : generadorRef.puntoMonedas2;
+            GameObject prefabAUsar = intentoFallidoPrevio ? prefabPocasMonedas : prefabMuchasMonedas;
+
+            if (puntoDondeDejarMonedas != null && prefabAUsar != null)
+            {
+                Instantiate(prefabAUsar, puntoDondeDejarMonedas.position, puntoDondeDejarMonedas.rotation);
+            }
+        }
+
         if (generadorRef != null)
         {
             generadorRef.LiberarPunto(idPuntoAsignado);

@@ -1,12 +1,12 @@
-using UnityEngine;
-using TMPro;
 using DentedPixel;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance;
-
     public GameObject panelQuest1;
     public TextMeshProUGUI textoTitulo1;
     public TextMeshProUGUI textoContenido1;
@@ -22,29 +22,28 @@ public class TutorialManager : MonoBehaviour
 
     public float duracionFade = 0.3f;
 
-    [Header("Configuración de Transición a Clientes")]
     public GameObject panelFadeNegro;
     public CanvasGroup canvasGroupFade;
-    public GeneradorClientes generadorClientes;
+    public Transform puntoInicioPreparacion;
     public TextMeshProUGUI textoPreparate;
+    public TiempoLimite scriptTiempoPreparacion;
 
-    [Header("Posicionamiento del Jugador")]
+    public GeneradorClientes generadorClientes;
     public Transform jugadorTransform;
     public Transform puntoInicioClientes;
 
-    [Header("Control de Ventanas del Puesto")]
     public int totalVentanas = 2;
     private int ventanasAbiertas = 0;
     [HideInInspector] public bool esperandoAperturaVentanas = false;
 
     private bool misionMovimientoActiva = true;
     private bool misionRecetarioActiva = false;
+
     private bool misionCortarActiva = false;
     private bool misionHervirActiva = false;
     private bool misionServirActiva = false;
     private bool misionTipDuplicarActiva = false;
 
-    // Control para evitar doble ejecución
     private bool transicionIniciada = false;
 
     private void Awake()
@@ -61,6 +60,8 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+        if (scriptTiempoPreparacion != null) scriptTiempoPreparacion.enabled = false;
+
         MostrarQuest(1, "Tip", "Puedes moverte alrededor con W, A, S, D");
         Invoke("ActivarMisionRecetario", 1.5f);
 
@@ -75,7 +76,6 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        // Movimiento
         if (misionMovimientoActiva)
         {
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -85,7 +85,6 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        // Recetario
         if (Input.GetKeyDown(KeyCode.N))
         {
             recetarioAbierto = !recetarioAbierto;
@@ -111,12 +110,11 @@ public class TutorialManager : MonoBehaviour
                 {
                     misionRecetarioActiva = false;
                     OcultarQuest(2);
-                    Invoke("ActivarMisionCortar", 0.5f);
+                    Invoke("ActivarMisionOrganizacion", 0.5f);
                 }
             }
         }
 
-        // --- DETECCIÓN DE CLIC IZQUIERDO PARA ABRIR LAS VENTANAS ---
         if (esperandoAperturaVentanas && Input.GetMouseButtonDown(0) && !recetarioAbierto)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -138,13 +136,30 @@ public class TutorialManager : MonoBehaviour
         MostrarQuest(2, "Tip", "Puedes revisar tu recetario con la tecla N");
     }
 
-    void ActivarMisionCortar()
+    void ActivarMisionOrganizacion()
     {
+        MostrarQuest(1, "Organización", "Haz clic en las cestas para sacar tus utensilios y acomodarlos");
+    }
+
+    void IniciarMisionesCocina()
+    {
+        MostrarQuest(2, "Preparación", "Tienes tiempo límite para cocinar.");
+
         misionCortarActiva = true;
         MostrarQuest(1, "Preparación", "Dirígete al área de cortar para comenzar a cocinar");
 
         misionTipDuplicarActiva = true;
-        MostrarQuest(2, "Tip", "Recuerda que puedes hacer 2 porciones de tu platillo al duplicar ingredientes");
+
+    }
+
+    public void MostrarQuestRevolverOlla()
+    {
+        MostrarQuest(2, "Cocina", "Asegúrate de revolver la olla con el cucharón manteniendo el clic.");
+    }
+
+    public void OcultarQuestRevolverOlla()
+    {
+        OcultarQuest(2);
     }
 
     public void NotificarIngredienteListoOSostenido()
@@ -170,12 +185,6 @@ public class TutorialManager : MonoBehaviour
             misionHervirActiva = false;
             OcultarQuest(1);
         }
-
-        if (misionTipDuplicarActiva)
-        {
-            misionTipDuplicarActiva = false;
-            OcultarQuest(2);
-        }
     }
 
     public void NotificarSopaLista()
@@ -186,8 +195,6 @@ public class TutorialManager : MonoBehaviour
 
     public void NotificarSopaServida()
     {
-        // CAMBIO: Ya no inicia la transición aquí, solo completa el quest para que
-        // el jugador pueda seguir preparando más platillos mientras le quede tiempo.
         if (misionServirActiva)
         {
             misionServirActiva = false;
@@ -195,12 +202,91 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    // CAMBIO: Nuevo método público que llamará tu script TiempoPreparacion al llegar a 00:00
+    public void IniciarTransicionDesdeOrganizacion(List<ObjetoEmpacado> objetosAcomodados)
+    {
+        StartCoroutine(RutinaTransicionDesdeOrganizacionCorrutina(objetosAcomodados));
+    }
+
+    IEnumerator RutinaTransicionDesdeOrganizacionCorrutina(List<ObjetoEmpacado> objetosAcomodados)
+    {
+        OcultarQuest(1);
+        OcultarQuest(2);
+
+        MostrarQuest(1, "Preparación", "Tu carrito está acomodado. Prepárate para cocinar.");
+        yield return new WaitForSeconds(4f);
+        OcultarQuest(1);
+
+        if (panelFadeNegro != null && canvasGroupFade != null)
+        {
+            panelFadeNegro.SetActive(true);
+            canvasGroupFade.alpha = 0f;
+            LeanTween.cancel(panelFadeNegro);
+            LeanTween.value(panelFadeNegro, 0f, 1f, 1.5f)
+                .setOnUpdate((float val) => { canvasGroupFade.alpha = val; });
+        }
+
+        yield return new WaitForSeconds(1.6f);
+
+        if (jugadorTransform != null && puntoInicioPreparacion != null)
+        {
+            CharacterController controller = jugadorTransform.GetComponent<CharacterController>();
+            MonoBehaviour scriptCamara = jugadorTransform.GetComponentInChildren<Camera>()?.GetComponent<MonoBehaviour>();
+
+            if (controller != null) controller.enabled = false;
+            if (scriptCamara != null) scriptCamara.enabled = false;
+
+            jugadorTransform.position = puntoInicioPreparacion.position;
+            jugadorTransform.rotation = puntoInicioPreparacion.rotation;
+
+            Camera camaraMain = Camera.main;
+            if (camaraMain != null && camaraMain.transform.IsChildOf(jugadorTransform))
+            {
+                camaraMain.transform.rotation = puntoInicioPreparacion.rotation;
+                camaraMain.transform.localRotation = Quaternion.identity;
+            }
+
+            Physics.SyncTransforms();
+
+            if (controller != null) controller.enabled = true;
+            if (scriptCamara != null) scriptCamara.enabled = true;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (panelFadeNegro != null && canvasGroupFade != null)
+        {
+            LeanTween.cancel(panelFadeNegro);
+            LeanTween.value(panelFadeNegro, 1f, 0f, 1.5f)
+                .setOnUpdate((float val) => { canvasGroupFade.alpha = val; })
+                .setOnComplete(() => { panelFadeNegro.SetActive(false); });
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        if (objetosAcomodados != null)
+        {
+            foreach (var obj in objetosAcomodados)
+            {
+                if (obj != null) obj.ActivarParaCocina();
+            }
+        }
+
+        if (scriptTiempoPreparacion != null)
+        {
+            scriptTiempoPreparacion.enabled = true;
+            if (scriptTiempoPreparacion.textoCronometro != null)
+            {
+                scriptTiempoPreparacion.textoCronometro.gameObject.SetActive(true);
+            }
+        }
+
+        IniciarMisionesCocina();
+    }
+
     public void IniciarTransicionPorTiempo()
     {
         if (transicionIniciada) return;
 
-        // Si el jugador tenía el recetario abierto justo cuando se acabó el tiempo, lo cerramos
         if (recetarioAbierto)
         {
             recetarioAbierto = false;
@@ -216,14 +302,9 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator RutinaTransicionClientes()
     {
-        // Limpiamos cualquier Quest viejo que haya quedado en pantalla
         OcultarQuest(1);
         OcultarQuest(2);
 
-        // CAMBIO: Quitamos el "yield return new WaitForSeconds(8f);" para que el fade 
-        // empiece inmediatamente en cuanto el reloj marque 00:00.
-
-        // Fade In a negro
         if (panelFadeNegro != null && canvasGroupFade != null)
         {
             panelFadeNegro.SetActive(true);
@@ -235,7 +316,6 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.6f);
 
-        // Teletransporte del jugador...
         if (jugadorTransform != null && puntoInicioClientes != null)
         {
             CharacterController controller = jugadorTransform.GetComponent<CharacterController>();
@@ -260,7 +340,6 @@ public class TutorialManager : MonoBehaviour
             if (scriptCamara != null) scriptCamara.enabled = true;
         }
 
-        // Activamos el texto "Prepárate para atender"
         if (textoPreparate != null)
         {
             textoPreparate.gameObject.SetActive(true);
@@ -268,7 +347,6 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        // Fade Out
         if (panelFadeNegro != null && canvasGroupFade != null)
         {
             LeanTween.cancel(panelFadeNegro);
@@ -284,13 +362,11 @@ public class TutorialManager : MonoBehaviour
             textoPreparate.gameObject.SetActive(false);
         }
 
-        // --- INICIAR MISIÓN DE ABRIR VENTANAS ---
         ventanasAbiertas = 0;
         esperandoAperturaVentanas = true;
         MostrarQuest(1, "Apertura", "Abre las ventanas para comenzar a recibir pedidos (0/2)");
     }
 
-    // Método llamado por cada VentanaPuesto cuando el jugador hace clic en ella
     public void NotificarVentanaAbierta()
     {
         if (!esperandoAperturaVentanas) return;
@@ -306,19 +382,26 @@ public class TutorialManager : MonoBehaviour
             esperandoAperturaVentanas = false;
             OcultarQuest(1);
 
-            // ¡Ahora sí activamos el generador de clientes!
             if (generadorClientes != null)
             {
                 generadorClientes.enabled = true;
             }
 
-            // MOSTRAR TIPS DE LA FASE DE PEDIDOS
-            MostrarTipTemporal(1, "Tip de Servicio", "Sírvele a los clientes el platillo correcto. Asegúrate de entregarlo en bowl o caja para llevar.", 15f);
-            MostrarTipTemporal(2, "Tip de Ganancias", "Si no entregas el platillo correcto perderás monedas.", 15f);
+            TiempoCerrar relojServicio = FindObjectOfType<TiempoCerrar>();
+            if (relojServicio != null)
+            {
+                relojServicio.enabled = true;
+                if (relojServicio.textoCronometro != null)
+                {
+                    relojServicio.textoCronometro.gameObject.SetActive(true);
+                }
+            }
+
+            MostrarTipTemporal(1, "Tip", "Sírvele a los clientes el platillo correcto. Asegúrate de entregarlo en bowl o caja para llevar.", 15f);
+            MostrarTipTemporal(2, "Entrega", "Sirve los platillos de la vasija usando el cucharón", 15f);
         }
     }
 
-    // Función auxiliar para mostrar Tips que se auto-ocultan tras X segundos
     public void MostrarTipTemporal(int numeroPanel, string titulo, string contenido, float tiempoVisibilidad)
     {
         MostrarQuest(numeroPanel, titulo, contenido);

@@ -290,10 +290,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   puedoInteractuar: 1
-  distanciaMaxima: 6
+  distanciaMaxima: 10
   objetoBrillo: {fileID: 8219760352137126139}
   Contenido: 
   Titulo: 
+  bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!114 &8024621217793980076
 MonoBehaviour:
@@ -341,8 +342,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nombreObjeto: Bowl
+  esBowl: 0
   elementosActivarAlTerminar: []
+  scriptsAControlar: []
   alturaApoyoY: 0
+  alturaExtraApilado: 0.08
+  usarRotacionPersonalizada: 0
+  rotacionInicialEuler: {x: 0, y: 0, z: 0}
+  bloquearRotacion: 0
 --- !u!1 &5483949730865459520
 GameObject:
   m_ObjectHideFlags: 0

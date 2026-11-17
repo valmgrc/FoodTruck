@@ -8,35 +8,48 @@ public class GeneradorClientes : MonoBehaviour
 
     public Transform puntoSpawn1;
     public Transform puntoDestino1;
+    public Transform puntoMonedas1;
     [HideInInspector] public bool punto1Ocupado = false;
 
     public Transform puntoSpawn2;
     public Transform puntoDestino2;
+    public Transform puntoMonedas2;
     [HideInInspector] public bool punto2Ocupado = false;
 
 
-    public float tiempoMinimoSpawn = 12f; 
-    public float tiempoMaximoSpawn = 25f; 
+    public float tiempoMinimoDescanso = 10f;
 
-    void Start()
+    public float tiempoMaximoDescanso = 18f;
+
+    public bool soloUnClienteALaVez = true;
+
+    private float tiempoParaSiguienteCliente = 5f; 
+
+    void Update()
     {
-        StartCoroutine(RutinaBucleClientes());
-    }
 
-    IEnumerator RutinaBucleClientes()
-    {
-        yield return new WaitForSeconds(6f); 
-
-        while (true)
+        if (soloUnClienteALaVez && (punto1Ocupado || punto2Ocupado))
         {
-            IntentarSpawnearClientes();
+            return;
+        }
+        if (punto1Ocupado && punto2Ocupado)
+        {
+            return;
+        }
 
-            float tiempoEspera = Random.Range(tiempoMinimoSpawn, tiempoMaximoSpawn);
-            yield return new WaitForSeconds(tiempoEspera);
+        if (tiempoParaSiguienteCliente > 0f)
+        {
+            tiempoParaSiguienteCliente -= Time.deltaTime;
+        }
+        else
+        {
+            IntentarSpawnearCliente();
+
+            tiempoParaSiguienteCliente = Random.Range(tiempoMinimoDescanso, tiempoMaximoDescanso);
         }
     }
 
-    void IntentarSpawnearClientes()
+    void IntentarSpawnearCliente()
     {
         List<int> puntosDisponibles = new List<int>();
 
@@ -45,30 +58,18 @@ public class GeneradorClientes : MonoBehaviour
 
         if (puntosDisponibles.Count == 0) return;
 
-        int cantidadASpawnear = 1;
-        if (puntosDisponibles.Count == 2 && Random.value > 0.85f)
+        int indiceElegido = Random.Range(0, puntosDisponibles.Count);
+        int numeroPunto = puntosDisponibles[indiceElegido];
+
+        if (numeroPunto == 1)
         {
-            cantidadASpawnear = 2;
+            punto1Ocupado = true;
+            CrearCliente(puntoSpawn1, puntoDestino1, 1);
         }
-
-        for (int i = 0; i < cantidadASpawnear; i++)
+        else if (numeroPunto == 2)
         {
-            if (puntosDisponibles.Count == 0) break;
-
-            int indiceElegido = Random.Range(0, puntosDisponibles.Count);
-            int numeroPunto = puntosDisponibles[indiceElegido];
-            puntosDisponibles.RemoveAt(indiceElegido);
-
-            if (numeroPunto == 1)
-            {
-                punto1Ocupado = true;
-                CrearCliente(puntoSpawn1, puntoDestino1, 1);
-            }
-            else if (numeroPunto == 2)
-            {
-                punto2Ocupado = true;
-                CrearCliente(puntoSpawn2, puntoDestino2, 2);
-            }
+            punto2Ocupado = true;
+            CrearCliente(puntoSpawn2, puntoDestino2, 2);
         }
     }
 
@@ -82,7 +83,6 @@ public class GeneradorClientes : MonoBehaviour
         if (cliente != null)
         {
             cliente.InicializarCliente(destino.position);
-
             cliente.idPuntoAsignado = idPunto;
             cliente.generadorRef = this;
         }
@@ -92,5 +92,7 @@ public class GeneradorClientes : MonoBehaviour
     {
         if (idPunto == 1) punto1Ocupado = false;
         if (idPunto == 2) punto2Ocupado = false;
+
+        tiempoParaSiguienteCliente = Random.Range(tiempoMinimoDescanso, tiempoMaximoDescanso);
     }
 }

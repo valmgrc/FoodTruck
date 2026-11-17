@@ -16,20 +16,18 @@ public class ControladorOlla : MonoBehaviour
     public bool estaCocinando = false;
     public bool estaEnParrilla = false;
 
-
     public GameObject panelMinijuegoContainer;
     public Slider sliderProgresoMinijuego;
     public GameObject iconoFlechaGuia;
     public float girosNecesarios = 15f;
     private float progresoActual = 0f;
 
-
     public GameObject objetoAguaAzul;
     public GameObject objetoAguaNaranja;
     public Transform puntoCentroOlla;
 
     private ObjectSelected miObjectSelected;
-    private bool estaSiendoMirado = false; 
+    private bool estaSiendoMirado = false;
 
     void Start()
     {
@@ -45,6 +43,7 @@ public class ControladorOlla : MonoBehaviour
 
         if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(false);
     }
+
     private void OnMouseEnter()
     {
         estaSiendoMirado = true;
@@ -68,27 +67,13 @@ public class ControladorOlla : MonoBehaviour
         if (ingrediente != null)
         {
             int porcionesTotalesOcupadas = porcionesDisponiblesEnOlla + porcionesCocinandose;
+            if (porcionesTotalesOcupadas >= maxPorcionesPermitidas) return;
 
-            if (porcionesTotalesOcupadas >= maxPorcionesPermitidas)
-            {
-                return;
-            }
+            if (!ingrediente.IntentarEntrarAOlla()) return;
 
-            if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Daikon)
-            {
-                cantidadDaikon++;
-                ingrediente.EntrarAOlla();
-            }
-            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Cebollin)
-            {
-                cantidadCebollin++;
-                ingrediente.EntrarAOlla();
-            }
-            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo)
-                {
-                cantidadMijo++;
-                ingrediente.EntrarAOlla();
-            }
+            if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Daikon) cantidadDaikon++;
+            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Cebollin) cantidadCebollin++;
+            else if (ingrediente.tipo == IngredienteCocinable.TipoIngrediente.Mijo) cantidadMijo++;
 
             RevisarYConvertirAPorciones();
         }
@@ -150,11 +135,16 @@ public class ControladorOlla : MonoBehaviour
         }
         if (iconoFlechaGuia != null) iconoFlechaGuia.SetActive(true);
 
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.MostrarQuestRevolverOlla();
+        }
+
         bool primerGiroHecho = false;
+        bool questOculto = false;
 
         while (progresoActual < girosNecesarios)
         {
-
             if (estaEnRangoOlla() && CucharonSystem.cucharonEnMano && estaSiendoMirado && Input.GetMouseButton(0))
             {
                 float deltaMouseX = Input.GetAxis("Mouse X");
@@ -165,6 +155,16 @@ public class ControladorOlla : MonoBehaviour
                 {
                     progresoActual += movimientoMagnitud * Time.deltaTime * 5f;
                     if (sliderProgresoMinijuego != null) sliderProgresoMinijuego.value = progresoActual;
+
+
+                    if (!questOculto)
+                    {
+                        questOculto = true;
+                        if (TutorialManager.Instance != null)
+                        {
+                            TutorialManager.Instance.OcultarQuestRevolverOlla();
+                        }
+                    }
 
                     if (!primerGiroHecho)
                     {
@@ -186,6 +186,11 @@ public class ControladorOlla : MonoBehaviour
         estaCocinando = false;
 
         if (panelMinijuegoContainer != null) panelMinijuegoContainer.SetActive(false);
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.OcultarQuestRevolverOlla();
+        }
 
         porcionesDisponiblesEnOlla += porcionesCocinandose;
         porcionesCocinandose = 0;

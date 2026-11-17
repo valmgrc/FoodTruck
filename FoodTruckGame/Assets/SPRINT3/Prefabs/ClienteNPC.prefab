@@ -244,11 +244,12 @@ MonoBehaviour:
   generadorRef: {fileID: 0}
   spritesPlatos:
   - {fileID: 21300000, guid: ded1d35e2fbd39947aeba505f82aa0a3, type: 3}
-  - {fileID: 21300000, guid: fdc8073808b0e784c8500d9343c60d4c, type: 3}
   spritesModalidades:
   - {fileID: 21300000, guid: 764318ec988041f409025ee3d709728f, type: 3}
   - {fileID: 21300000, guid: 58779c180da38c5448d565b184a5f158, type: 3}
   tiempoMaximoEspera: 30
+  prefabMuchasMonedas: {fileID: 1001789139913747169, guid: 0696ef078d1996b4ca5057ace54673a8, type: 3}
+  prefabPocasMonedas: {fileID: 6944650121620861048, guid: 96127f3ef42c214469070b88ea22e2bd, type: 3}
 --- !u!222 &7378686627909234990
 CanvasRenderer:
   m_ObjectHideFlags: 0

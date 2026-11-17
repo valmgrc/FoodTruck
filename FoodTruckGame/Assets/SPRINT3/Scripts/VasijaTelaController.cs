@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class VasijaTelaController : MonoBehaviour
 {
-
     public GameObject modeloVasijaDestapada; 
     public GameObject modeloVasijaTapada;  
-
-
     public bool estaTapada = false;
 
     void Start()
