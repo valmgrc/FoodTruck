@@ -715,8 +715,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 56
+  m_fontSizeBase: 56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7022,7 +7022,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e6b5131b6a5c76247ac6537ca83767a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72cf827427865e8418ee435de9ad9803, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7105,8 +7105,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7427,9 +7427,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelPromptContainer: {fileID: 448693993}
-  spriteTeclaE: {fileID: 21300000, guid: f4ae19f4a684e3c4d81bf20950eccfb2, type: 3}
-  spriteClickIzq: {fileID: 21300000, guid: 278ac4122cb94844891e7ea8aad393cb, type: 3}
-  spriteRueda: {fileID: 21300000, guid: d7f5a952e1cfe1a46be2e72e12380e32, type: 3}
+  spriteTeclaE: {fileID: 21300000, guid: 209186d044251a047a6259ff368be7c7, type: 3}
+  spriteClickIzq: {fileID: 21300000, guid: 95492a2aba03d484ab0da43692ed2c04, type: 3}
+  spriteRueda: {fileID: 21300000, guid: 4b50e99ff96c2d2488133c2786e2a6fb, type: 3}
   filaPrompt1: {fileID: 1560840394}
   imagenIcono1: {fileID: 1065751598}
   textoAccion1: {fileID: 1628933088}
@@ -8719,8 +8719,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9084,7 +9084,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8555178376b49c14e85eeee8062b3495, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8159625085df024abf10ddceea587ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11759,7 +11759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -17.515}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -848.1179, y: 412}
+  m_AnchoredPosition: {x: -850.6, y: 408.8}
   m_SizeDelta: {x: 116.0362, y: 201.4091}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1152539899
@@ -11782,7 +11782,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e6b5131b6a5c76247ac6537ca83767a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72cf827427865e8418ee435de9ad9803, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19634,8 +19634,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 56ac362a833581f49b3727e3f4163e97, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -20474,8 +20474,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -21746,7 +21746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -794.7289, y: 369.08224}
+  m_AnchoredPosition: {x: -798.6, y: 369}
   m_SizeDelta: {x: 108.8916, y: 100.8475}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1674946244
@@ -21769,7 +21769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8555178376b49c14e85eeee8062b3495, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8159625085df024abf10ddceea587ee, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25134,8 +25134,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
