@@ -290,10 +290,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   puedoInteractuar: 1
-  distanciaMaxima: 10
+  distanciaMaxima: 14
   objetoBrillo: {fileID: 8219760352137126139}
-  Contenido: 
-  Titulo: 
+  Contenido: "\xDAtil para servir alimentos"
+  Titulo: Bowl
   bloquearRotacion: 0
   velocidadRotacion: 200
 --- !u!114 &8024621217793980076
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2240047477018797889}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1ec6c66e3a2ff44d94a31fa458d002e, type: 3}
   m_Name: 

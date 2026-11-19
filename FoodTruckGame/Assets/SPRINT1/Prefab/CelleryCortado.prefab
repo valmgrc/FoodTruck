@@ -152,10 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b95f0553f64dd4eb9a32c848346c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: '[E] Agarrar'
-  messageSoltar: 
-  textoMensaje: {fileID: 0}
-  textoSoltar: {fileID: 0}
+  mensajeAccion: AGARRAR
+  teclaAccion: E
   onInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -171,6 +169,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  puedoInteractuar: 1
+  distanciaMaxima: 14
+  objetoBrillo: {fileID: 0}
+  Contenido: 
+  Titulo: 
+  bloquearRotacion: 0
+  velocidadRotacion: 200
 --- !u!114 &3446513617475798555
 MonoBehaviour:
   m_ObjectHideFlags: 0

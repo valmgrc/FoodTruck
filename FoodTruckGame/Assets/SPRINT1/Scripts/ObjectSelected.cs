@@ -28,7 +28,6 @@ public class ObjectSelected : MonoBehaviour
     public static bool hayObjetoAgarrado = false;
     public float velocidadRotacion = 200f;
 
-
     private void Awake()
     {
         objectRigidbody = GetComponent<Rigidbody>();
@@ -48,7 +47,6 @@ public class ObjectSelected : MonoBehaviour
 
     void Update()
     {
-
         if (objectGrabPointTransform != null)
         {
             if (!bloquearRotacion)
@@ -110,7 +108,6 @@ public class ObjectSelected : MonoBehaviour
                 }
             }
         }
-
     }
 
     bool EstaEnRango()
@@ -118,6 +115,28 @@ public class ObjectSelected : MonoBehaviour
         if (jugadorTransform == null) return true;
         float distancia = Vector3.Distance(transform.position, jugadorTransform.position);
         return distancia <= distanciaMaxima;
+    }
+
+    bool EsVerduraCortadaEnMano()
+    {
+        if (!hayObjetoAgarrado || objetoAgarradoActual == null) return false;
+
+        GameObject objMano = objetoAgarradoActual.gameObject;
+        IngredienteCocinable ingrediente = objMano.GetComponent<IngredienteCocinable>();
+
+        if (ingrediente != null)
+        {
+            return true;
+        }
+
+        if (objMano.CompareTag("Daikon") || objMano.CompareTag("Cebollin") || objMano.CompareTag("Mijo") ||
+            objMano.name.Contains("Cortado") || objMano.name.Contains("Daikon") ||
+            objMano.name.Contains("Cebollin") || objMano.name.Contains("Mijo"))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void Interact()
@@ -137,7 +156,6 @@ public class ObjectSelected : MonoBehaviour
     }
 
     // HOVER OUTLINE Y MENSAJE
-
 
     private void OnMouseEnter()
     {
@@ -190,7 +208,19 @@ public class ObjectSelected : MonoBehaviour
 
                     if (gameObject.CompareTag("Olla") || name.Contains("Olla"))
                     {
-                        ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "COLOCAR");
+                        if (CucharonSystem.cucharonEnMano)
+                        {
+                            ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "SERVIR");
+                            return;
+                        }
+
+                        if (EsVerduraCortadaEnMano())
+                        {
+                            ButtonPromptManager.Instance.MostrarPrompt("E", "COLOCAR EN OLLA");
+                            return;
+                        }
+
+                        ButtonPromptManager.Instance.MostrarPrompt("E", "SOLTAR");
                         return;
                     }
 
@@ -200,7 +230,7 @@ public class ObjectSelected : MonoBehaviour
                         if (vasijaTela != null && !vasijaTela.estaTapada && ObjectSelected.objetoAgarradoActual != null)
                         {
                             GameObject objMano = ObjectSelected.objetoAgarradoActual.gameObject;
-                            if (objMano.CompareTag("Tela") || objMano.name.Contains("Tela")) //Colocar telita
+                            if (objMano.CompareTag("Tela") || objMano.name.Contains("Tela"))
                             {
                                 ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "COLOCAR");
                                 return;
@@ -238,6 +268,7 @@ public class ObjectSelected : MonoBehaviour
                             }
                         }
                     }
+
                     if (gameObject.CompareTag("Cesta") || name.Contains("Cesta"))
                     {
                         ButtonPromptManager.Instance.MostrarPrompt("ClickIzq", "SACAR OBJETO");
@@ -250,16 +281,6 @@ public class ObjectSelected : MonoBehaviour
                         if (sistemaCorte != null && sistemaCorte.clicsActuales < sistemaCorte.clicsNecesarios)
                         {
                             ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "CORTAR");
-                            return;
-                        }
-                    }
-
-                    if (CucharonSystem.cucharonEnMano && (gameObject.CompareTag("Olla") || name.Contains("Olla")))
-                    {
-                        ControladorOlla olla = GetComponent<ControladorOlla>();
-                        if (olla != null && olla.objetoAguaNaranja != null && olla.objetoAguaNaranja.activeSelf)
-                        {
-                            ButtonPromptManager.Instance.MostrarDoblePrompt("E", "SOLTAR", "ClickIzq", "CUCHAREAR");
                             return;
                         }
                     }
@@ -292,7 +313,7 @@ public class ObjectSelected : MonoBehaviour
             {
                 if (ObjectSelected.hayObjetoAgarrado)
                 {
-                   bool esRotable = !gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon") && !gameObject.CompareTag("CucharaEspecias")
+                    bool esRotable = !gameObject.CompareTag("Cuchillo") && !gameObject.CompareTag("Cucharon") && !gameObject.CompareTag("CucharaEspecias")
                                      && !name.Contains("Cuchillo") && !name.Contains("Cucharon") && !name.Contains("Cucharita");
 
                     if (esRotable)

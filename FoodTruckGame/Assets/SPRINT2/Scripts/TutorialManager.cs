@@ -17,8 +17,12 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI textoContenido2;
     private CanvasGroup canvasGroup2;
 
-    public GameObject panelRecetarioVisual;
+
+    public GameObject panelRecetarioVisual;  
+    public GameObject panelEmpaquetadoVisual;
+    public GameObject iconoTooltipTeclaN; 
     private bool recetarioAbierto = false;
+    private bool enFasePedidos = false;
 
     public float duracionFade = 0.3f;
 
@@ -26,11 +30,21 @@ public class TutorialManager : MonoBehaviour
     public CanvasGroup canvasGroupFade;
     public Transform puntoInicioPreparacion;
     public TextMeshProUGUI textoPreparate;
-    public TiempoLimite scriptTiempoPreparacion;
+
+
+    public GameObject panelPopUpCocina;      
+    public GameObject tooltipTeclaP;    
+    public MonoBehaviour scriptMovimientoJugador; 
+    private bool popUpCocinaAbierto = false;
+    private bool esperandoAbrirFoodTruck = false;
 
     public GeneradorClientes generadorClientes;
     public Transform jugadorTransform;
     public Transform puntoInicioClientes;
+
+
+    public List<GameObject> objetosADesactivar = new List<GameObject>();
+    public List<GameObject> objetosGuiaOrganizacion = new List<GameObject>(); //pa que no se vea su outline de los fijos
 
     public int totalVentanas = 2;
     private int ventanasAbiertas = 0;
@@ -38,6 +52,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool misionMovimientoActiva = true;
     private bool misionRecetarioActiva = false;
+    private bool misionEmpaquetadoActiva = false;
 
     private bool misionCortarActiva = false;
     private bool misionHervirActiva = false;
@@ -60,7 +75,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        if (scriptTiempoPreparacion != null) scriptTiempoPreparacion.enabled = false;
+        BloquearObjetoOrganizacion();
 
         MostrarQuest(1, "Tip", "Puedes moverte alrededor con W, A, S, D");
         Invoke("ActivarMisionRecetario", 1.5f);
@@ -72,6 +87,10 @@ public class TutorialManager : MonoBehaviour
         }
         if (generadorClientes != null) generadorClientes.enabled = false;
         if (textoPreparate != null) textoPreparate.gameObject.SetActive(false);
+
+        if (panelPopUpCocina != null) panelPopUpCocina.SetActive(false);
+        if (tooltipTeclaP != null) tooltipTeclaP.SetActive(false);
+        if (panelEmpaquetadoVisual != null) panelEmpaquetadoVisual.SetActive(false);
     }
 
     void Update()
@@ -85,13 +104,25 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
+        if (popUpCocinaAbierto)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                CerrarYDestruirPopUpCocina();
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.N))
         {
             recetarioAbierto = !recetarioAbierto;
 
-            if (panelRecetarioVisual != null)
+
+            GameObject panelActivoN = enFasePedidos ? panelEmpaquetadoVisual : panelRecetarioVisual;
+
+            if (panelActivoN != null)
             {
-                panelRecetarioVisual.SetActive(recetarioAbierto);
+                panelActivoN.SetActive(recetarioAbierto);
             }
 
             if (recetarioAbierto)
@@ -106,12 +137,25 @@ public class TutorialManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
 
-                if (misionRecetarioActiva)
+                if (!enFasePedidos && misionRecetarioActiva)
                 {
                     misionRecetarioActiva = false;
                     OcultarQuest(2);
                     Invoke("ActivarMisionOrganizacion", 0.5f);
                 }
+                else if (enFasePedidos && misionEmpaquetadoActiva)
+                {
+                    misionEmpaquetadoActiva = false;
+                    OcultarQuest(2);
+                }
+            }
+        }
+
+        if (esperandoAbrirFoodTruck && !recetarioAbierto)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                AlPresionarAbrirFoodTruck();
             }
         }
 
@@ -143,13 +187,11 @@ public class TutorialManager : MonoBehaviour
 
     void IniciarMisionesCocina()
     {
-        MostrarQuest(2, "Preparación", "Tienes tiempo límite para cocinar.");
-
         misionCortarActiva = true;
         MostrarQuest(1, "Preparación", "Dirígete al área de cortar para comenzar a cocinar");
 
         misionTipDuplicarActiva = true;
-
+        MostrarQuest(2, "Tip", "Recuerda que puedes hacer 2 porciones de tu platillo al duplicar ingredientes");
     }
 
     public void MostrarQuestRevolverOlla()
@@ -186,7 +228,6 @@ public class TutorialManager : MonoBehaviour
             OcultarQuest(1);
         }
     }
-
     public void NotificarSopaLista()
     {
         misionServirActiva = true;
@@ -204,10 +245,10 @@ public class TutorialManager : MonoBehaviour
 
     public void IniciarTransicionDesdeOrganizacion(List<ObjetoEmpacado> objetosAcomodados)
     {
-        StartCoroutine(RutinaTransicionDesdeOrganizacionCorrutina(objetosAcomodados));
+        StartCoroutine(RutinaTransicionDesdeOrganizacion(objetosAcomodados));
     }
 
-    IEnumerator RutinaTransicionDesdeOrganizacionCorrutina(List<ObjetoEmpacado> objetosAcomodados)
+    IEnumerator RutinaTransicionDesdeOrganizacion(List<ObjetoEmpacado> objetosAcomodados)
     {
         OcultarQuest(1);
         OcultarQuest(2);
@@ -270,27 +311,132 @@ public class TutorialManager : MonoBehaviour
                 if (obj != null) obj.ActivarParaCocina();
             }
         }
+        HabilitarObjetoPreparacion();
 
-        if (scriptTiempoPreparacion != null)
+        yield return new WaitForSeconds(1f);
+        AbrirPopUpCocina();
+    }
+
+
+    void AbrirPopUpCocina()
+    {
+        if (panelPopUpCocina == null)
         {
-            scriptTiempoPreparacion.enabled = true;
-            if (scriptTiempoPreparacion.textoCronometro != null)
-            {
-                scriptTiempoPreparacion.textoCronometro.gameObject.SetActive(true);
-            }
+            FinalizarCierrePopUp();
+            return;
         }
+
+        popUpCocinaAbierto = true;
+
+        Time.timeScale = 0f;
+        if (scriptMovimientoJugador != null)
+        {
+            scriptMovimientoJugador.enabled = false;
+        }
+
+        panelPopUpCocina.SetActive(true);
+        LeanTween.cancel(panelPopUpCocina);
+        panelPopUpCocina.transform.localScale = Vector3.zero;
+        LeanTween.scale(panelPopUpCocina, Vector3.one, 0.45f)
+            .setEaseOutBack()
+            .setIgnoreTimeScale(true);
+    }
+
+    void CerrarYDestruirPopUpCocina()
+    {
+        if (!popUpCocinaAbierto) return;
+        popUpCocinaAbierto = false;
+
+        if (panelPopUpCocina != null)
+        {
+            LeanTween.cancel(panelPopUpCocina);
+            Destroy(panelPopUpCocina);
+            panelPopUpCocina = null;
+        }
+
+        FinalizarCierrePopUp();
+    }
+
+    void FinalizarCierrePopUp()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (scriptMovimientoJugador != null)
+        {
+            scriptMovimientoJugador.enabled = true;
+        }
+
+        if (tooltipTeclaP != null)
+        {
+            tooltipTeclaP.SetActive(true);
+        }
+        esperandoAbrirFoodTruck = true;
 
         IniciarMisionesCocina();
     }
 
-    public void IniciarTransicionPorTiempo()
+    void BloquearObjetoOrganizacion()
+    {
+        foreach (GameObject obj in objetosGuiaOrganizacion)
+        {
+            if (obj == null) continue;
+
+            ObjectSelected objSel = obj.GetComponent<ObjectSelected>();
+            if (objSel != null)
+            {
+                objSel.puedoInteractuar = false;
+                objSel.enabled = false;
+            }
+
+            Outline[] outlines = obj.GetComponentsInChildren<Outline>(true);
+            foreach (Outline outl in outlines)
+            {
+                if (outl != null)
+                {
+                    outl.enabled = false;
+                }
+            }
+        }
+    }
+
+    void HabilitarObjetoPreparacion()
+    {
+        foreach (GameObject obj in objetosGuiaOrganizacion)
+        {
+            if (obj == null) continue;
+
+            ObjectSelected objSel = obj.GetComponent<ObjectSelected>();
+            if (objSel != null)
+            {
+                objSel.enabled = true;
+                objSel.puedoInteractuar = true;
+            }
+        }
+    }
+
+    public void AlPresionarAbrirFoodTruck()
     {
         if (transicionIniciada) return;
+
+        esperandoAbrirFoodTruck = false;
+
+
+        if (tooltipTeclaP != null)
+        {
+            tooltipTeclaP.SetActive(false);
+        }
+        if (iconoTooltipTeclaN != null)
+        {
+            iconoTooltipTeclaN.SetActive(false);
+        }
 
         if (recetarioAbierto)
         {
             recetarioAbierto = false;
             if (panelRecetarioVisual != null) panelRecetarioVisual.SetActive(false);
+            if (panelEmpaquetadoVisual != null) panelEmpaquetadoVisual.SetActive(false);
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -299,6 +445,7 @@ public class TutorialManager : MonoBehaviour
         transicionIniciada = true;
         StartCoroutine(RutinaTransicionClientes());
     }
+
 
     IEnumerator RutinaTransicionClientes()
     {
@@ -362,11 +509,49 @@ public class TutorialManager : MonoBehaviour
             textoPreparate.gameObject.SetActive(false);
         }
 
+
+        enFasePedidos = true;
+        DesactivarScriptFasePedidos();
+
+        if (iconoTooltipTeclaN != null)
+        {
+            iconoTooltipTeclaN.SetActive(true);
+            LeanTween.cancel(iconoTooltipTeclaN);
+            iconoTooltipTeclaN.transform.localScale = Vector3.zero;
+            LeanTween.scale(iconoTooltipTeclaN, Vector3.one, 0.45f)
+                .setEaseOutBack();
+        }
+
         ventanasAbiertas = 0;
         esperandoAperturaVentanas = true;
         MostrarQuest(1, "Apertura", "Abre las ventanas para comenzar a recibir pedidos (0/2)");
-    }
 
+        misionEmpaquetadoActiva = true;
+        MostrarQuest(2, "Tip", "Presiona N para aprender cómo empaquetar los platillos");
+    }
+    void DesactivarScriptFasePedidos()
+    {
+        foreach (GameObject obj in objetosADesactivar)
+        {
+            if (obj == null) continue;
+
+            ObjectSelected objSel = obj.GetComponent<ObjectSelected>();
+            if (objSel != null)
+            {
+                objSel.puedoInteractuar = false;
+                objSel.enabled = false;
+            }
+
+            Outline[] outlines = obj.GetComponentsInChildren<Outline>(true);
+            foreach (Outline outl in outlines)
+            {
+                if (outl != null)
+                {
+                    outl.enabled = false;
+                }
+            }
+        }
+    }
     public void NotificarVentanaAbierta()
     {
         if (!esperandoAperturaVentanas) return;
@@ -397,7 +582,7 @@ public class TutorialManager : MonoBehaviour
                 }
             }
 
-            MostrarTipTemporal(1, "Tip", "Sírvele a los clientes el platillo correcto. Asegúrate de entregarlo en bowl o caja para llevar.", 15f);
+            MostrarTipTemporal(1, "Tip", "Sírvele a los clientes el platillo correcto para recibir tu pago completo.", 15f);
             MostrarTipTemporal(2, "Entrega", "Sirve los platillos de la vasija usando el cucharón", 15f);
         }
     }

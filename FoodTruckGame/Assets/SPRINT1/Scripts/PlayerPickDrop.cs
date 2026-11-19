@@ -24,7 +24,7 @@ public class PlayerPickDrop : MonoBehaviour
         {
             if (objectSelected == null)
             {
-                float pickupDistance = 6f;
+                float pickupDistance = 14f;
                 if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit raycastHit, pickupDistance, pickUpLayerMask))
                 {
                     if (raycastHit.transform.TryGetComponent(out objectSelected))

@@ -120,7 +120,6 @@ public class ControladorOlla : MonoBehaviour
         estaCocinando = true;
         progresoActual = 0f;
 
-        if (objetoAguaAzul != null) objetoAguaAzul.SetActive(false);
         if (objetoAguaNaranja != null && porcionesDisponiblesEnOlla <= 0)
         {
             objetoAguaNaranja.SetActive(false);
@@ -195,6 +194,7 @@ public class ControladorOlla : MonoBehaviour
         porcionesDisponiblesEnOlla += porcionesCocinandose;
         porcionesCocinandose = 0;
 
+        if (objetoAguaAzul != null) objetoAguaAzul.SetActive(false);
         if (objetoAguaNaranja != null) objetoAguaNaranja.SetActive(true);
 
         if (TutorialManager.Instance != null)

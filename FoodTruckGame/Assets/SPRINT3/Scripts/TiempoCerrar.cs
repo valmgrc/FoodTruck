@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class TiempoCerrar : MonoBehaviour
 {
-    public float tiempoRestanteServicio = 180f; 
+    public float tiempoRestanteServicio = 240f; 
     public TextMeshProUGUI textoCronometro;
 
     public string nombreEscenaFinal = "FinPrueba"; 
